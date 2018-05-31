@@ -6,6 +6,7 @@
 ## 灵感来自
 
 [Binaryify/NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi)
+[加密算法](https://www.jianshu.com/p/07ebbb142c73)
 
 ## 功能特性
 
