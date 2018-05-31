@@ -44,4 +44,5 @@ $ git clone https://github.com/xuzijia/CloudMusicApi.git
 ```shell
 将项目打包为jar包
 java -jar CloudMusicApi-1.0.jar
+默认端口：3001(可更改src/main/resources/application.properties配置文件进行修改)
 ```
