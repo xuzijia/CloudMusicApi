@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.cloudmusic</groupId>
-	<artifactId>api</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<artifactId>CloudMusicApi</artifactId>
+	<version>1.0</version>
 	<packaging>jar</packaging>
 
-	<name>api</name>
+	<name>CloudMusicApi</name>
 	<description>网易云音乐API</description>
 
 	<parent>
