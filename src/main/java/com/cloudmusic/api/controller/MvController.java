@@ -90,7 +90,7 @@ public class MvController {
     @RequestMapping("/mv/player")
     public void playMv(String url, HttpServletResponse response) throws IOException {
         Connection.Response execute = Jsoup.connect(url).header("Referer", "http://music.163.com/").
-                header("Content-Type", "video/mp4").header("Location", url).ignoreContentType(true).maxBodySize(10*1024*1024).
+                header("Content-Type", "video/mp4").header("Location", url).ignoreContentType(true).maxBodySize(300*1024*1024).
                 execute();
         System.out.println(execute.bodyAsBytes().length);
         response.setHeader("Content-Type","video/mp4");

@@ -35,7 +35,7 @@ public class AlbumController {
 
     /**
      * 获取新碟上架列表
-     * @param type 新碟分类 ALL, ZH,EA,KR,JP(默认值：ALL)
+     * @param type 新碟分类 可选值：ALL, ZH,EA,KR,JP(默认值：ALL)
      * @param limit 新碟数量(默认值：30)
      * @param offset 偏移量(默认值：0)
      * @return 专辑内容
