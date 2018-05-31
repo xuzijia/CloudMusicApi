@@ -93,5 +93,5 @@ $ git clone https://github.com/xuzijia/CloudMusicApi.git
 ## 运行
 
 ```shell
-java -jar xxx.jar
+java -jar CloudMusicApi-1.0.jar
 ```
