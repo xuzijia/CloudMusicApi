@@ -92,7 +92,6 @@ public class MvController {
         Connection.Response execute = Jsoup.connect(url).header("Referer", "http://music.163.com/").
                 header("Content-Type", "video/mp4").header("Location", url).ignoreContentType(true).maxBodySize(300*1024*1024).
                 execute();
-        System.out.println(execute.bodyAsBytes().length);
         response.setHeader("Content-Type","video/mp4");
         response.getOutputStream().write(execute.bodyAsBytes());
 
