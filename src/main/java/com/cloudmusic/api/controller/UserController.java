@@ -1,6 +1,6 @@
 package com.cloudmusic.api.controller;
 
-import com.cloudmusic.utils.ApiUrl;
+import com.cloudmusic.conf.ApiUrl;
 import com.cloudmusic.utils.CreateWebRequest;
 import com.cloudmusic.utils.Result;
 import org.json.JSONObject;

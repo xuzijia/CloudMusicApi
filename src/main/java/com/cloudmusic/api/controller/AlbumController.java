@@ -1,10 +1,11 @@
 package com.cloudmusic.api.controller;
 
-import com.cloudmusic.utils.ApiUrl;
+import com.cloudmusic.conf.ApiUrl;
 import com.cloudmusic.utils.CreateWebRequest;
 import com.cloudmusic.utils.Result;
 import org.json.JSONObject;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
@@ -51,6 +52,16 @@ public class AlbumController {
         data.put("area", type);
         data.put("total",true);
         return CreateWebRequest.createWebPostRequest(ApiUrl.albumNewUrl,data,new HashMap<>());
+    }
+
+    /**
+     * 获取轮播图数据
+     * @param clientType 客户端类型 默认值为 "pc"
+     * @return
+     */
+    @RequestMapping("/banner/getBanner")
+    public String getBanner(@RequestParam(defaultValue = "pc") String clientType){
+        return CreateWebRequest.createWebPostRequest(ApiUrl.bannerUrl.replace("{clientType}",clientType),new HashMap<>(),new HashMap<>());
     }
 
 }

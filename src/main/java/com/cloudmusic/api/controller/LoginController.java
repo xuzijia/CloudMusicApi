@@ -1,6 +1,6 @@
 package com.cloudmusic.api.controller;
 
-import com.cloudmusic.utils.ApiUrl;
+import com.cloudmusic.conf.ApiUrl;
 import com.cloudmusic.utils.CreateWebRequest;
 import com.cloudmusic.utils.MusicUtil;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,8 +27,8 @@ public class LoginController {
      * @return 登陆信息
      * @throws Exception
      */
-    @RequestMapping("/login")
-    public String login(String phone, String password, HttpServletResponse response) throws Exception {
+    @RequestMapping("/login_phone")
+    public String loginByPhone(String phone, String password, HttpServletResponse response) throws Exception {
         //md5加密
         password = MusicUtil.md5(password);
         Map<String, Object> data = new HashMap<>();
@@ -36,6 +36,24 @@ public class LoginController {
         data.put("password", password);
         data.put("rememberLogin", "true");
         return CreateWebRequest.createLoginRequest(ApiUrl.cellPhoneLoginUrl, data, new HashMap<>(), response);
+    }
+    /**
+     * 邮箱登陆接口(建议用户使用post请求)
+     *
+     * @param email    *邮箱 必填
+     * @param password *密码 必填
+     * @return 登陆信息
+     * @throws Exception
+     */
+    @RequestMapping("/login_email")
+    public String loginByEmail(String email, String password, HttpServletResponse response) throws Exception {
+        //md5加密
+        password = MusicUtil.md5(password);
+        Map<String, Object> data = new HashMap<>();
+        data.put("username", email);
+        data.put("password", password);
+        data.put("rememberLogin", "true");
+        return CreateWebRequest.createLoginRequest(ApiUrl.emailLoginUrl, data, new HashMap<>(), response);
     }
 
     /**
