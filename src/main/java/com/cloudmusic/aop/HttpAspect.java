@@ -24,7 +24,7 @@ public class HttpAspect {
 
     private final Logger logger= LoggerFactory.getLogger(HttpAspect.class);
 
-    @Pointcut("execution(* com.cloudmusic.api.controller..*(..)) && @annotation(org.springframework.web.bind.annotation.RequestMapping)")
+    @Pointcut("execution(* com.cloudmusic.controller..*(..)) && @annotation(org.springframework.web.bind.annotation.RequestMapping)")
     public void aopPointCut() {}
 
 
