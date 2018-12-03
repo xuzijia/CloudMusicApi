@@ -3,7 +3,9 @@ package com.cloudmusic.api.controller;
 import com.cloudmusic.conf.ApiUrl;
 import com.cloudmusic.utils.CreateWebRequest;
 import com.cloudmusic.utils.Result;
+import com.cloudmusic.utils.ResultCacheUtils;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,7 +20,8 @@ import java.util.Map;
  */
 @RestController
 public class MusicController {
-
+    @Autowired
+    private ResultCacheUtils resultCacheUtils;
     /**
      * 获取歌曲详细信息
      * @param id *歌曲id 必传
@@ -43,7 +46,8 @@ public class MusicController {
             return new JSONObject(new Result(0, "缺少必填参数")).toString();
         }
         String url=ApiUrl.SongLyricUrl.replace("{id}",id);
-        return CreateWebRequest.createWebPostRequest(url,new HashMap<>(),new HashMap<>());
+        String key="/artist/song/"+id;
+        return resultCacheUtils.createCache(key,url,new HashMap<>(),60*60*24);
     }
 
     /**

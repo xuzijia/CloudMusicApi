@@ -1,9 +1,12 @@
 package com.cloudmusic.api.controller;
 
+import com.cloudmusic.base.RedisUtil;
 import com.cloudmusic.conf.ApiUrl;
 import com.cloudmusic.utils.CreateWebRequest;
 import com.cloudmusic.utils.Result;
+import com.cloudmusic.utils.ResultCacheUtils;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,6 +22,11 @@ import java.util.Map;
  */
 @RestController
 public class ArtistController {
+
+    @Autowired
+    private RedisUtil redisUtil;
+    @Autowired
+    private ResultCacheUtils resultCacheUtils;
 
     /**
      * 获取歌手列表
@@ -47,12 +55,22 @@ public class ArtistController {
      */
     @RequestMapping("/artist/hot")
     public String getHotArtistList(Integer limit, Integer offset) throws Exception {
+        String result="";
         limit = limit == null ? 30 : limit;
         offset = offset == null ? 0 : offset;
-        Map<String, Object> data = new HashMap<>();
-        data.put("limit", limit);
-        data.put("offset", offset);
-        return CreateWebRequest.createWebPostRequest(ApiUrl.artistListHotUrl, data, new HashMap<>());
+        String key="artist_hot"+limit+"_"+offset;
+        //判断redis是否存在
+        if(redisUtil.hasKey(key)){
+            result=(String)redisUtil.get(key);
+        }else{
+            Map<String, Object> data = new HashMap<>();
+            data.put("limit", limit);
+            data.put("offset", offset);
+            //存储到redis
+            result=CreateWebRequest.createWebPostRequest(ApiUrl.artistListHotUrl, data, new HashMap<>());
+            redisUtil.set(key,result,3600*24);
+        }
+        return result;
     }
 
     /**
@@ -66,7 +84,8 @@ public class ArtistController {
             return new JSONObject(new Result(0, "缺少必填参数")).toString();
         }
         String url = ApiUrl.artistSongUrl.replace("{id}", id);
-        return CreateWebRequest.createWebPostRequest(url, new HashMap<>(), new HashMap<>());
+        String key="/artist/song/"+id;
+        return resultCacheUtils.createCache(key,url,new HashMap<>(),120);
     }
 
     /**
@@ -87,6 +106,7 @@ public class ArtistController {
         data.put("artistId", id);
         data.put("offset", offset);
         data.put("limit", limit);
+
         return CreateWebRequest.createWebPostRequest(ApiUrl.artistMvUrl, data, new HashMap<>());
     }
 

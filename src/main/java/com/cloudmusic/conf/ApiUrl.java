@@ -16,7 +16,6 @@ public class ApiUrl {
     //刷新登陆状态
     public static final String RefreshLoginUrl = DOMAIN + "/weapi/login/token/refresh";
 
-
     //音乐评论API
     public static final String MusicCommentUrl = DOMAIN + "/weapi/v1/resource/comments/R_SO_4_{id}";
     //歌单评论API

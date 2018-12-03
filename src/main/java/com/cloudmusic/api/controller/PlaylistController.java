@@ -3,8 +3,10 @@ package com.cloudmusic.api.controller;
 import com.cloudmusic.conf.ApiUrl;
 import com.cloudmusic.utils.CreateWebRequest;
 import com.cloudmusic.utils.Result;
+import com.cloudmusic.utils.ResultCacheUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,6 +22,9 @@ import java.util.Map;
  */
 @RestController
 public class PlaylistController {
+
+    @Autowired
+    private ResultCacheUtils resultCacheUtils;
 
     /**
      * 获取歌单分类
@@ -53,7 +58,8 @@ public class PlaylistController {
         data.put("id",id);
         data.put("n",100000);
         String url = ApiUrl.playlistDetailUrl.replace("{id}", id);
-        return CreateWebRequest.createWebPostRequest(url,data,new HashMap<>());
+        String key="/playlist/detail/"+id;
+        return resultCacheUtils.createCache(key,url,data,60*60*2);
     }
 
 
