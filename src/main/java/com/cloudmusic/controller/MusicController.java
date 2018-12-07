@@ -70,7 +70,7 @@ public class MusicController {
     }
 
     /**
-     * 获取歌曲播放地址(POST请求)
+     * 获取歌曲播放地址(POST请求) 如果code=404 说明歌曲没有版权或者歌曲不存在
      * @param ids *歌曲id(多个id用逗号分开) 必传
      * @param br 码率(默认值：最大码率)
      * @return 歌曲url

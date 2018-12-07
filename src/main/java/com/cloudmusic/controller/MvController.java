@@ -72,13 +72,27 @@ public class MvController {
      * @return Mv信息
      */
     @RequestMapping("/mv/detail")
-    public String getTopMvList(String id){
+    public String getMvDetail(String id){
         if (id == null || id.trim().equals("")) {
             return new JSONObject(new Result(0, "缺少必填参数")).toString();
         }
         Map<String,Object> data=new HashMap<>();
         data.put("id",id);
         return CreateWebRequest.createWebPostRequest(ApiUrl.mvDetailUrl,data,new HashMap<>());
+    }
+    /**
+     * 获取视频信息
+     * @param vid *vid 必传
+     * @return Mv信息
+     */
+    @RequestMapping("/video/detail")
+    public String getVideoDetail(String vid){
+        if (vid == null || vid.trim().equals("")) {
+            return new JSONObject(new Result(0, "缺少必填参数")).toString();
+        }
+        Map<String,Object> data=new HashMap<>();
+        data.put("id",vid);
+        return CreateWebRequest.createWebPostRequest(ApiUrl.videoUrl,data,new HashMap<>());
     }
 
     /**
@@ -96,4 +110,7 @@ public class MvController {
         response.getOutputStream().write(execute.bodyAsBytes());
 
     }
+
+
+
 }

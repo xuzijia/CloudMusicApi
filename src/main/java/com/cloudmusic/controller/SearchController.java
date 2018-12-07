@@ -24,7 +24,7 @@ public class SearchController {
      * @param keywords *关键词 必填
      * @param limit 搜索数量(默认值：30)
      * @param offset 偏移量(默认值：0)
-     * @param type 搜索类型(默认值：1) 具体类型值： 1:单曲, 10:专辑, 100:歌手, 1000:歌单, 1002:用户, 1004:Mv 1006:歌词, 1009:电台
+     * @param type 搜索类型(默认值：1) 具体类型值： 1:单曲, 10:专辑, 100:歌手, 1000:歌单, 1002:用户, 1004:Mv 1006:歌词, 1009:电台 1014:视频
      * @return 搜索内容
      */
     @RequestMapping("/search")
@@ -41,7 +41,7 @@ public class SearchController {
         data.put("offset", offset);
         data.put("type", type);
 
-        return CreateWebRequest.createWebPostRequest(ApiUrl.searchUrl,data,new HashMap<>());
+        return CreateWebRequest.createWebPostRequest(ApiUrl.searchUrlV2,data,new HashMap<>());
     }
 
     /**

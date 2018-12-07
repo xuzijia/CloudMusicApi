@@ -8,7 +8,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * @author simple
- * @description 配置拦截器
+ * @description 配置跨域拦截器
  * @date 2018/10/30 10:30
  */
 @Configuration

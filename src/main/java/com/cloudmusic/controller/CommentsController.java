@@ -29,6 +29,7 @@ public class CommentsController {
         typeMap.put("2","A_PL_0_");//歌单
         typeMap.put("3","R_AL_3_");//专辑
         typeMap.put("4","A_DJ_1_");//电台
+        typeMap.put("5","R_VI_62_");//视频
     }
     /**
      * 获取音乐评论
@@ -77,6 +78,17 @@ public class CommentsController {
     @RequestMapping("/comment/mv")
     public String getMvComment(String id,Integer limit,Integer offset) throws Exception {
         return getCommentData(ApiUrl.MvCommentUrl,id,limit,offset);
+    }
+    /**
+     * 获取视频评论
+     * @param vid *vid 必传
+     * @param limit 评论数量 (默认值：20)
+     * @param offset 偏移量 (默认值：0)
+     * @return mv评论数据
+     */
+    @RequestMapping("/comment/video")
+    public String getVideoComment(String vid,Integer limit,Integer offset) throws Exception {
+        return getCommentData(ApiUrl.VideoCommentURl,vid,limit,offset);
     }
 
     /**

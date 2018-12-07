@@ -3,7 +3,9 @@ package com.cloudmusic.controller;
 import com.cloudmusic.api.ApiUrl;
 import com.cloudmusic.utils.CreateWebRequest;
 import com.cloudmusic.utils.Result;
+import com.cloudmusic.utils.ResultCacheUtils;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,15 +20,16 @@ import java.util.Map;
  */
 @RestController
 public class TopController {
-
+    @Autowired
+    private ResultCacheUtils resultCacheUtils;
     /**
      * 获取歌曲排行榜数据
      *
      * @param idx *排行榜标识 必传 具体各个标识请看最下面注释
      * @return 歌曲排行榜数据
      */
-    @RequestMapping("/top/list")
-    public String getTopList(String idx) {
+    @RequestMapping("/top/data")
+    public String getTopData(String idx) {
 
         if (idx == null || idx.trim().equals("")) {
             return new JSONObject(new Result(0, "缺少必填参数")).toString();
@@ -34,7 +37,7 @@ public class TopController {
         Map<String, Object> data = new HashMap<>();
         data.put("id", topList.get(idx));
         data.put("n", 10000);
-        return CreateWebRequest.createWebPostRequest(ApiUrl.topListUrl, data, new HashMap<>());
+        return CreateWebRequest.createWebPostRequest(ApiUrl.topDataUrl, data, new HashMap<>());
 
     }
 
@@ -50,6 +53,28 @@ public class TopController {
         data.put("type", type);//todo 具体值还没挖掘到~
         return CreateWebRequest.createWebPostRequest(ApiUrl.topArtistUrl, data, new HashMap<>());
 
+    }
+    /**
+     * 获取排行榜列表
+     *
+     * @return 排行榜列表数据
+     */
+    @RequestMapping("/top/list")
+    public String getTopList() {
+        Map<String, Object> data = new HashMap<>();
+        return CreateWebRequest.createWebPostRequest(ApiUrl.topListUrl, data, new HashMap<>());
+
+    }
+    /**
+     * 获取排行榜内容摘要
+     *
+     * @return 排行榜内容摘要
+     */
+    @RequestMapping("/top/detail")
+    public String getTopListDetail() {
+        Map<String, Object> data = new HashMap<>();
+        String key="/top/detail";
+        return resultCacheUtils.createCache(key,ApiUrl.topListDetailUrl,data,60*60*24);
     }
 
 
