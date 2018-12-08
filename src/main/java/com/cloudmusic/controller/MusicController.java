@@ -46,8 +46,8 @@ public class MusicController {
             return new JSONObject(new Result(0, "缺少必填参数")).toString();
         }
         String url=ApiUrl.SongLyricUrl.replace("{id}",id);
-        String key="/artist/song/"+id;
-        return resultCacheUtils.createCache(key,url,new HashMap<>(),60*60*24);
+        String key="/artist/lyric/"+id;
+        return resultCacheUtils.createCache(key,url,new HashMap<>(),60*60*24*15);
     }
 
     /**
