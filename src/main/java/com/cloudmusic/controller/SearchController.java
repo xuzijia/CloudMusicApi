@@ -3,7 +3,9 @@ package com.cloudmusic.controller;
 import com.cloudmusic.api.ApiUrl;
 import com.cloudmusic.utils.CreateWebRequest;
 import com.cloudmusic.utils.Result;
+import com.cloudmusic.utils.ResultCacheUtils;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,6 +20,8 @@ import java.util.Map;
  */
 @RestController
 public class SearchController {
+    @Autowired
+    private ResultCacheUtils resultCacheUtils;
 
     /**
      * 获取搜索内容
@@ -85,7 +89,8 @@ public class SearchController {
     public String getSearchHot(){
         Map<String, Object> data = new HashMap<>();
         data.put("type", 1111);//不知道是啥~
-
-        return CreateWebRequest.createWebPostRequest(ApiUrl.searchHotUrl,data,new HashMap<>());
+        String url = ApiUrl.searchHotUrl;
+        String key="/search/hot";
+        return resultCacheUtils.createCache(key,url,data,60*60*1);
     }
 }

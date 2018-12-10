@@ -80,7 +80,6 @@ public class PlaylistController {
         data.put("limit",limit);
         data.put("offset",offset);
         data.put("total",true);
-
         return CreateWebRequest.createWebPostRequest(ApiUrl.playlistPersonalizedUrl, data, CreateWebRequest.getCookie(request));
     }
 
@@ -120,7 +119,8 @@ public class PlaylistController {
         data.put("order",order);
         data.put("limit",limit);
         data.put("offset",offset);
-        return CreateWebRequest.createWebPostRequest(ApiUrl.playlistListUrl,data,new HashMap<>());
+        String key="/playlist/list/"+cat+"/"+limit+"/"+offset;
+        return resultCacheUtils.createCache(key,ApiUrl.playlistListUrl,data,60*60*1);
     }
 
     /**
