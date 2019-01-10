@@ -5,7 +5,7 @@ package com.cloudmusic.api;
  * Created by xuzijia
  * 2018/5/18 9:59
  */
-public class ApiUrl {
+public class CloudMusicApiUrl {
     //网易云音乐域名
     public static final String DOMAIN = "http://music.163.com";
 
@@ -69,8 +69,12 @@ public class ApiUrl {
 
     //歌单分类API
     public static final String playlistCatListUrl = DOMAIN + "/weapi/playlist/catalogue";
-    //歌单详细内容API
+    //歌单详细内容API (ps:20181211该api会出现只能获取歌单的第一首歌的问题 请使用下面最新的api)
     public static final String playlistDetailUrl = DOMAIN + "/api/playlist/detail?id={id}";
+    //最新获取歌单详细内容API
+//    public static final String playlistDetailUrl = DOMAIN + "/weapi/v3/playlist/detail";
+
+
     //热门歌单分类API
     public static final String playlistHotCatListUrl = DOMAIN + "/weapi/playlist/hottags";
     //精品歌单API

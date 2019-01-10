@@ -1,8 +1,8 @@
-package com.cloudmusic.controller;
+package com.cloudmusic.controller.cloudMusic;
 
-import com.cloudmusic.api.ApiUrl;
-import com.cloudmusic.utils.CreateWebRequest;
-import com.cloudmusic.utils.Result;
+import com.cloudmusic.api.CloudMusicApiUrl;
+import com.cloudmusic.request.cloudMusic.CreateWebRequest;
+import com.cloudmusic.result.Result;
 import org.json.JSONObject;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,7 +40,7 @@ public class CommentsController {
      */
     @RequestMapping("/comment/music")
     public String getMusicComment(String id, Integer limit, Integer offset) throws Exception {
-        return getCommentData(ApiUrl.MusicCommentUrl,id,limit,offset);
+        return getCommentData(CloudMusicApiUrl.MusicCommentUrl,id,limit,offset);
     }
 
     /**
@@ -52,7 +52,7 @@ public class CommentsController {
      */
     @RequestMapping("/comment/playlist")
     public String getPlayListComment(String id,Integer limit,Integer offset) throws Exception {
-        return getCommentData(ApiUrl.PlayListCommentUrl,id,limit,offset);
+        return getCommentData(CloudMusicApiUrl.PlayListCommentUrl,id,limit,offset);
     }
 
 
@@ -65,7 +65,7 @@ public class CommentsController {
      */
     @RequestMapping("/comment/album")
     public String getAlbumComment(String id, Integer limit, Integer offset) throws Exception {
-        return getCommentData(ApiUrl.AlbumCommentUrl,id,limit,offset);
+        return getCommentData(CloudMusicApiUrl.AlbumCommentUrl,id,limit,offset);
     }
 
     /**
@@ -77,7 +77,7 @@ public class CommentsController {
      */
     @RequestMapping("/comment/mv")
     public String getMvComment(String id,Integer limit,Integer offset) throws Exception {
-        return getCommentData(ApiUrl.MvCommentUrl,id,limit,offset);
+        return getCommentData(CloudMusicApiUrl.MvCommentUrl,id,limit,offset);
     }
     /**
      * 获取视频评论
@@ -88,7 +88,7 @@ public class CommentsController {
      */
     @RequestMapping("/comment/video")
     public String getVideoComment(String vid,Integer limit,Integer offset) throws Exception {
-        return getCommentData(ApiUrl.VideoCommentURl,vid,limit,offset);
+        return getCommentData(CloudMusicApiUrl.VideoCommentURl,vid,limit,offset);
     }
 
     /**
@@ -100,7 +100,7 @@ public class CommentsController {
      */
     @RequestMapping("/comment/dj")
     public String getDjComment(String id,Integer limit,Integer offset) throws Exception {
-        return getCommentData(ApiUrl.DjCommentUrl,id,limit,offset);
+        return getCommentData(CloudMusicApiUrl.DjCommentUrl,id,limit,offset);
     }
 
     /**
@@ -137,7 +137,7 @@ public class CommentsController {
         data.put("threadId", type+id);
         data.put("commentId",cid);
 
-        return CreateWebRequest.createWebPostRequest(ApiUrl.CommentLikeUrl.replace("{action}",action),data,CreateWebRequest.getCookie(request));
+        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.CommentLikeUrl.replace("{action}",action),data,CreateWebRequest.getCookie(request));
     }
 
 

@@ -1,8 +1,8 @@
-package com.cloudmusic.controller;
+package com.cloudmusic.controller.cloudMusic;
 
-import com.cloudmusic.api.ApiUrl;
-import com.cloudmusic.utils.CreateWebRequest;
-import com.cloudmusic.utils.Result;
+import com.cloudmusic.api.CloudMusicApiUrl;
+import com.cloudmusic.request.cloudMusic.CreateWebRequest;
+import com.cloudmusic.result.Result;
 import org.json.JSONObject;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,7 +31,7 @@ public class SimilarController {
         }
         Map<String,Object> data=new HashMap<>();
         data.put("artistid",id);
-        return CreateWebRequest.createWebPostRequest(ApiUrl.simiArtistUrl,data,new HashMap<>());
+        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.simiArtistUrl,data,new HashMap<>());
     }
 
     /**
@@ -46,7 +46,7 @@ public class SimilarController {
         }
         Map<String,Object> data=new HashMap<>();
         data.put("songid",id);
-        return CreateWebRequest.createWebPostRequest(ApiUrl.simiPlaylistUrl,data,new HashMap<>());
+        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.simiPlaylistUrl,data,new HashMap<>());
     }
 
     /**
@@ -61,7 +61,7 @@ public class SimilarController {
         }
         Map<String,Object> data=new HashMap<>();
         data.put("mvid",id);
-        return CreateWebRequest.createWebPostRequest(ApiUrl.simiMvUrl,data,new HashMap<>());
+        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.simiMvUrl,data,new HashMap<>());
     }
 
     /**
@@ -76,7 +76,7 @@ public class SimilarController {
         }
         Map<String,Object> data=new HashMap<>();
         data.put("songid",id);
-        return CreateWebRequest.createWebPostRequest(ApiUrl.simiSongUrl,data,new HashMap<>());
+        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.simiSongUrl,data,new HashMap<>());
     }
 
     /**
@@ -91,6 +91,6 @@ public class SimilarController {
         }
         Map<String,Object> data=new HashMap<>();
         data.put("songid",id);
-        return CreateWebRequest.createWebPostRequest(ApiUrl.simiUserUrl,data,new HashMap<>());
+        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.simiUserUrl,data,new HashMap<>());
     }
 }

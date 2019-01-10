@@ -1,8 +1,8 @@
-package com.cloudmusic.controller;
+package com.cloudmusic.controller.cloudMusic;
 
-import com.cloudmusic.api.ApiUrl;
-import com.cloudmusic.utils.CreateWebRequest;
-import com.cloudmusic.utils.Result;
+import com.cloudmusic.api.CloudMusicApiUrl;
+import com.cloudmusic.request.cloudMusic.CreateWebRequest;
+import com.cloudmusic.result.Result;
 import org.json.JSONObject;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,7 +28,7 @@ public class UserController {
      */
     @RequestMapping("/user/recommend")
     public String getUserRecommend(HttpServletRequest request) {
-        return CreateWebRequest.createWebPostRequest(ApiUrl.userRecommendUrl, new HashMap<>(), CreateWebRequest.getCookie(request));
+        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.userRecommendUrl, new HashMap<>(), CreateWebRequest.getCookie(request));
     }
 
     /**
@@ -47,7 +47,7 @@ public class UserController {
         Map<String, Object> data = new HashMap<>();
         data.put("trackId", id);
         data.put("like", action);
-        String url = ApiUrl.likeSongUrl.replace("{alg}","itembased").replace("{trackId}",id).replace("{time}","25");
+        String url = CloudMusicApiUrl.likeSongUrl.replace("{alg}","itembased").replace("{trackId}",id).replace("{time}","25");
         return CreateWebRequest.createWebPostRequest(url, data, CreateWebRequest.getCookie(request));
     }
 
@@ -59,7 +59,7 @@ public class UserController {
      */
     @RequestMapping("/playlist/recommend")
     public String getPlaylistRecommend(HttpServletRequest request) {
-        return CreateWebRequest.createWebPostRequest(ApiUrl.playlistRecommendUrl, new HashMap<>(), CreateWebRequest.getCookie(request));
+        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.playlistRecommendUrl, new HashMap<>(), CreateWebRequest.getCookie(request));
     }
 
     /**
@@ -70,7 +70,7 @@ public class UserController {
      */
     @RequestMapping("/user/personal_fm")
     public String getUserPersonalFm(HttpServletRequest request) {
-        return CreateWebRequest.createWebPostRequest(ApiUrl.userPersonalFmUrl, new HashMap<>(), CreateWebRequest.getCookie(request));
+        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.userPersonalFmUrl, new HashMap<>(), CreateWebRequest.getCookie(request));
     }
 
 
@@ -88,7 +88,7 @@ public class UserController {
         }
         Map<String, Object> data = new HashMap<>();
         data.put("songId", id);
-        String url = ApiUrl.fmTrashUrl.replace("{alg}","RT").replace("{songId}",id).replace("{id}","25");
+        String url = CloudMusicApiUrl.fmTrashUrl.replace("{alg}","RT").replace("{songId}",id).replace("{id}","25");
         return CreateWebRequest.createWebPostRequest(url, data, CreateWebRequest.getCookie(request));
     }
 
@@ -105,7 +105,7 @@ public class UserController {
         type = type == null ? "0" : type;
         Map<String, Object> data = new HashMap<>();
         data.put("type", type);
-        return CreateWebRequest.createWebPostRequest(ApiUrl.userDailySigninUrl, data, CreateWebRequest.getCookie(request));
+        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.userDailySigninUrl, data, CreateWebRequest.getCookie(request));
     }
 
     /**
@@ -123,7 +123,7 @@ public class UserController {
         Map<String, Object> data = new HashMap<>();
         data.put("limit", limit);
         data.put("offset", offset);
-        return CreateWebRequest.createWebPostRequest(ApiUrl.userCloudUrl, data, CreateWebRequest.getCookie(request));
+        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.userCloudUrl, data, CreateWebRequest.getCookie(request));
     }
 
     /**
@@ -138,7 +138,7 @@ public class UserController {
         if (id == null || id.trim().equals("")) {
             return new JSONObject(new Result(0, "缺少必填参数")).toString();
         }
-        return CreateWebRequest.createWebPostRequest(ApiUrl.userDetailUrl.replace("{id}", id), new HashMap<>(), CreateWebRequest.getCookie(request));
+        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.userDetailUrl.replace("{id}", id), new HashMap<>(), CreateWebRequest.getCookie(request));
     }
 
     /**
@@ -149,7 +149,7 @@ public class UserController {
      */
     @RequestMapping("/user/subcount")
     public String getUserSubCount(HttpServletRequest request) {
-        return CreateWebRequest.createWebPostRequest(ApiUrl.userSubcountUrl, new HashMap<>(), CreateWebRequest.getCookie(request));
+        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.userSubcountUrl, new HashMap<>(), CreateWebRequest.getCookie(request));
     }
 
     /**
@@ -177,7 +177,7 @@ public class UserController {
         data.put("/api/playlist/tags/update", "{id:" + id + ",tags:" + tags + "}");
         data.put("/api/playlist/update/name", "{id:" + id + ",name:" + name + "}");
 
-        return CreateWebRequest.createWebPostRequest(ApiUrl.userUpdatePlaylistUrl, data, CreateWebRequest.getCookie(request));
+        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.userUpdatePlaylistUrl, data, CreateWebRequest.getCookie(request));
     }
 
     /**
@@ -200,7 +200,7 @@ public class UserController {
         data.put("type","text");//私信类型：消息类型
         data.put("msg",msg);
         data.put("userIds","["+ids+"]");
-        return CreateWebRequest.createWebPostRequest(ApiUrl.sendMsgUrl, data, CreateWebRequest.getCookie(request));
+        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.sendMsgUrl, data, CreateWebRequest.getCookie(request));
     }
 
     /**
@@ -228,7 +228,7 @@ public class UserController {
         data.put("msg",msg);
         data.put("userIds","["+ids+"]");
         data.put("id",playlist);
-        return CreateWebRequest.createWebPostRequest(ApiUrl.sendMsgUrl, data, CreateWebRequest.getCookie(request));
+        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.sendMsgUrl, data, CreateWebRequest.getCookie(request));
     }
 
 
@@ -254,7 +254,7 @@ public class UserController {
         data.put("city", city);
         data.put("signature", signature);
 
-        return CreateWebRequest.createWebPostRequest(ApiUrl.userUpdateUrl, data, CreateWebRequest.getCookie(request));
+        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.userUpdateUrl, data, CreateWebRequest.getCookie(request));
     }
 
     /**
@@ -275,7 +275,7 @@ public class UserController {
         offset = offset == null ? 0 : offset;
         data.put("limit", limit);
         data.put("offset", offset);
-        return CreateWebRequest.createWebPostRequest(ApiUrl.userFollowsUrl.replace("{id}",id), data,new HashMap<>());
+        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.userFollowsUrl.replace("{id}",id), data,new HashMap<>());
     }
 
     /**
@@ -297,7 +297,7 @@ public class UserController {
         data.put("userId", id);
         data.put("limit", limit);
         data.put("offset", offset);
-        return CreateWebRequest.createWebPostRequest(ApiUrl.userFollowedsUrl, data,new HashMap<>());
+        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.userFollowedsUrl, data,new HashMap<>());
     }
 
     /**
@@ -318,7 +318,7 @@ public class UserController {
         data.put("getcounts",true);
         data.put("limit",limit);
         data.put("offset",offset);
-        return CreateWebRequest.createWebPostRequest(ApiUrl.userEventUrl.replace("{id}",id), data,new HashMap<>());
+        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.userEventUrl.replace("{id}",id), data,new HashMap<>());
     }
 
     /**
@@ -328,7 +328,7 @@ public class UserController {
      * @param type  type=1 时只返回 weekData, type=0 时返回 allData(默认值：1)
      * @return 用户播放记录
      */
-    @RequestMapping("/user/play_record")
+        @RequestMapping("/user/play_record")
     public String getUserPlayRecord(String id,String type) {
         if (id == null || id.trim().equals("")) {
             return new JSONObject(new Result(0, "缺少必填参数")).toString();
@@ -337,7 +337,7 @@ public class UserController {
         type = type == null ? "1" : type;
         data.put("uid",id);
         data.put("type",type);
-        return CreateWebRequest.createWebPostRequest(ApiUrl.userPlayRecordUrl, data,new HashMap<>());
+        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.userPlayRecordUrl, data,new HashMap<>());
     }
 
     /**
@@ -349,7 +349,7 @@ public class UserController {
     @RequestMapping("/event")
     public String getUserPlayRecord(HttpServletRequest request) {
         Map<String,Object> data=new HashMap<>();
-        return CreateWebRequest.createWebPostRequest(ApiUrl.evnetUrl,data,CreateWebRequest.getCookie(request));
+        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.evnetUrl,data,CreateWebRequest.getCookie(request));
     }
 
     /**
@@ -360,7 +360,7 @@ public class UserController {
     @RequestMapping("/privatecontent")
     public String getPrivatecontentPersonalized(HttpServletRequest request) {
         Map<String,Object> data=new HashMap<>();
-        return CreateWebRequest.createWebPostRequest(ApiUrl.privatecontentPersonalizedUrl,new HashMap<>(),CreateWebRequest.getCookie(request));
+        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.privatecontentPersonalizedUrl,new HashMap<>(),CreateWebRequest.getCookie(request));
     }
 
 

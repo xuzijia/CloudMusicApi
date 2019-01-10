@@ -1,8 +1,8 @@
-package com.cloudmusic.controller;
+package com.cloudmusic.controller.cloudMusic;
 
-import com.cloudmusic.api.ApiUrl;
-import com.cloudmusic.utils.CreateWebRequest;
-import com.cloudmusic.utils.Result;
+import com.cloudmusic.api.CloudMusicApiUrl;
+import com.cloudmusic.request.cloudMusic.CreateWebRequest;
+import com.cloudmusic.result.Result;
 import org.json.JSONObject;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,7 +30,7 @@ public class AlbumController {
         if (id == null || id.trim().equals("")) {
             return new JSONObject(new Result(0, "缺少必填参数")).toString();
         }
-        String url = ApiUrl.albumDetailUrl.replace("{id}", id);
+        String url = CloudMusicApiUrl.albumDetailUrl.replace("{id}", id);
         return CreateWebRequest.createWebPostRequest(url,new HashMap<>(),new HashMap<>());
     }
 
@@ -51,7 +51,7 @@ public class AlbumController {
         data.put("offset", offset);
         data.put("area", type);
         data.put("total",true);
-        return CreateWebRequest.createWebPostRequest(ApiUrl.albumNewUrl,data,new HashMap<>());
+        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.albumNewUrl,data,new HashMap<>());
     }
 
     /**
@@ -61,7 +61,7 @@ public class AlbumController {
      */
     @RequestMapping("/banner/getBanner")
     public String getBanner(@RequestParam(defaultValue = "pc") String clientType){
-        return CreateWebRequest.createWebPostRequest(ApiUrl.bannerUrl.replace("{clientType}",clientType),new HashMap<>(),new HashMap<>());
+        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.bannerUrl.replace("{clientType}",clientType),new HashMap<>(),new HashMap<>());
     }
 
 }

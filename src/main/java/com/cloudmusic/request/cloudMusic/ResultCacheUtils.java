@@ -1,4 +1,4 @@
-package com.cloudmusic.utils;
+package com.cloudmusic.request.cloudMusic;
 
 import com.cloudmusic.base.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;

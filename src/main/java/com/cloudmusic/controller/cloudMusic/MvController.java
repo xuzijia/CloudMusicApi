@@ -1,8 +1,8 @@
-package com.cloudmusic.controller;
+package com.cloudmusic.controller.cloudMusic;
 
-import com.cloudmusic.api.ApiUrl;
-import com.cloudmusic.utils.CreateWebRequest;
-import com.cloudmusic.utils.Result;
+import com.cloudmusic.api.CloudMusicApiUrl;
+import com.cloudmusic.request.cloudMusic.CreateWebRequest;
+import com.cloudmusic.result.Result;
 import org.json.JSONObject;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -37,7 +37,7 @@ public class MvController {
         Map<String, Object> data = new HashMap<>();
         data.put("limit", limit);
         data.put("offset", offset);
-        return CreateWebRequest.createWebPostRequest(ApiUrl.topMvUrl,data,new HashMap<>());
+        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.topMvUrl,data,new HashMap<>());
     }
 
     /**
@@ -53,7 +53,7 @@ public class MvController {
         Map<String, Object> data = new HashMap<>();
         data.put("limit", limit);
         data.put("offset", offset);
-        return CreateWebRequest.createWebPostRequest(ApiUrl.MvNewUrl,data,new HashMap<>());
+        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.MvNewUrl,data,new HashMap<>());
     }
 
     /**
@@ -63,7 +63,7 @@ public class MvController {
      */
     @RequestMapping("/mv/personalized")
     public String getPersonalizedMvList(HttpServletRequest request){
-        return CreateWebRequest.createWebPostRequest(ApiUrl.recommendMvUrl,new HashMap<>(),CreateWebRequest.getCookie(request));
+        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.recommendMvUrl,new HashMap<>(),CreateWebRequest.getCookie(request));
     }
 
     /**
@@ -78,7 +78,7 @@ public class MvController {
         }
         Map<String,Object> data=new HashMap<>();
         data.put("id",id);
-        return CreateWebRequest.createWebPostRequest(ApiUrl.mvDetailUrl,data,new HashMap<>());
+        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.mvDetailUrl,data,new HashMap<>());
     }
     /**
      * 获取视频信息
@@ -92,7 +92,7 @@ public class MvController {
         }
         Map<String,Object> data=new HashMap<>();
         data.put("id",vid);
-        return CreateWebRequest.createWebPostRequest(ApiUrl.videoUrl,data,new HashMap<>());
+        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.videoUrl,data,new HashMap<>());
     }
 
     /**

@@ -1,8 +1,8 @@
-package com.cloudmusic.controller;
+package com.cloudmusic.controller.cloudMusic;
 
-import com.cloudmusic.api.ApiUrl;
-import com.cloudmusic.utils.CreateWebRequest;
-import com.cloudmusic.utils.Result;
+import com.cloudmusic.api.CloudMusicApiUrl;
+import com.cloudmusic.request.cloudMusic.CreateWebRequest;
+import com.cloudmusic.result.Result;
 import org.json.JSONObject;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,7 +27,7 @@ public class DjController {
      */
     @RequestMapping("/dj/recommend")
     public String getDjRecommend(HttpServletRequest request){
-        return CreateWebRequest.createWebPostRequest(ApiUrl.djRecommendUrl,new HashMap<>(),CreateWebRequest.getCookie(request));
+        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.djRecommendUrl,new HashMap<>(),CreateWebRequest.getCookie(request));
     }
 
     /**
@@ -36,7 +36,7 @@ public class DjController {
      */
     @RequestMapping("/dj/catelist")
     public String getDjCatelist(){
-        return CreateWebRequest.createWebPostRequest(ApiUrl.djCatelistUrl,new HashMap<>(),new HashMap<>());
+        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.djCatelistUrl,new HashMap<>(),new HashMap<>());
     }
 
     /**
@@ -51,7 +51,7 @@ public class DjController {
         }
         Map<String,Object> data=new HashMap<>();
         data.put("cateId",type);
-        return CreateWebRequest.createWebPostRequest(ApiUrl.djRecommendTypeUrl,data,new HashMap<>());
+        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.djRecommendTypeUrl,data,new HashMap<>());
     }
 
 
@@ -70,7 +70,7 @@ public class DjController {
         data.put("limit", 30);
         data.put("offset", 0);
 
-        return CreateWebRequest.createWebPostRequest(ApiUrl.userDjUrl.replace("{id}",id), data, new HashMap<>());
+        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.userDjUrl.replace("{id}",id), data, new HashMap<>());
     }
 
 
@@ -88,7 +88,7 @@ public class DjController {
         data.put("limit", limit);
         data.put("offset", offset);
         data.put("total", "true");
-        return CreateWebRequest.createWebPostRequest(ApiUrl.djSublistUrl,data,CreateWebRequest.getCookie(request));
+        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.djSublistUrl,data,CreateWebRequest.getCookie(request));
     }
 
     /**
@@ -103,7 +103,7 @@ public class DjController {
         }
         HashMap<String, Object> data = new HashMap<>();
         data.put("id", id);
-        return CreateWebRequest.createWebPostRequest(ApiUrl.djDetailUrl,data,new HashMap<>());
+        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.djDetailUrl,data,new HashMap<>());
     }
 
     /**
@@ -124,7 +124,7 @@ public class DjController {
         data.put("radioId", id);
         data.put("limit", limit);
         data.put("offset", offset);
-        return CreateWebRequest.createWebPostRequest(ApiUrl.djProgramUrl,data,new HashMap<>());
+        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.djProgramUrl,data,new HashMap<>());
     }
 
     /**
@@ -146,7 +146,7 @@ public class DjController {
         data.put("id",id);
 
         action=action.equals("1")?"sub":"unsub";
-        return CreateWebRequest.createWebPostRequest(ApiUrl.djSubUrl.replace("{action}",action),data,CreateWebRequest.getCookie(request));
+        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.djSubUrl.replace("{action}",action),data,CreateWebRequest.getCookie(request));
     }
 
 
@@ -156,7 +156,7 @@ public class DjController {
      */
     @RequestMapping("/dj/personalized")
     public String getDjPersonalized(HttpServletRequest request) throws Exception {
-        return CreateWebRequest.createWebPostRequest(ApiUrl.djPersonalizedUrl,new HashMap<>(),CreateWebRequest.getCookie(request));
+        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.djPersonalizedUrl,new HashMap<>(),CreateWebRequest.getCookie(request));
     }
 
     /**
@@ -167,6 +167,6 @@ public class DjController {
     public String getprogramPersonalized() throws Exception {
         Map<String,Object> data=new HashMap<>();
         data.put("type","recommend");
-        return CreateWebRequest.createWebPostRequest(ApiUrl.programPersonalizedUrl,data,new HashMap<>());
+        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.programPersonalizedUrl,data,new HashMap<>());
     }
 }

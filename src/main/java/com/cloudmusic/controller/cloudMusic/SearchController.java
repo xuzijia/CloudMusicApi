@@ -1,9 +1,9 @@
-package com.cloudmusic.controller;
+package com.cloudmusic.controller.cloudMusic;
 
-import com.cloudmusic.api.ApiUrl;
-import com.cloudmusic.utils.CreateWebRequest;
-import com.cloudmusic.utils.Result;
-import com.cloudmusic.utils.ResultCacheUtils;
+import com.cloudmusic.api.CloudMusicApiUrl;
+import com.cloudmusic.request.cloudMusic.CreateWebRequest;
+import com.cloudmusic.result.Result;
+import com.cloudmusic.request.cloudMusic.ResultCacheUtils;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,7 +45,7 @@ public class SearchController {
         data.put("offset", offset);
         data.put("type", type);
 
-        return CreateWebRequest.createWebPostRequest(ApiUrl.searchUrlV2,data,new HashMap<>());
+        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.searchUrlV2,data,new HashMap<>());
     }
 
     /**
@@ -61,7 +61,7 @@ public class SearchController {
         Map<String, Object> data = new HashMap<>();
         data.put("s", keywords);
 
-        return CreateWebRequest.createWebPostRequest(ApiUrl.searchSuggestUrl,data,new HashMap<>());
+        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.searchSuggestUrl,data,new HashMap<>());
     }
 
     /**
@@ -78,7 +78,7 @@ public class SearchController {
         data.put("s", keywords);
         data.put("type", 1);
 
-        return CreateWebRequest.createWebPostRequest(ApiUrl.searchMultimatchUrl,data,new HashMap<>());
+        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.searchMultimatchUrl,data,new HashMap<>());
     }
 
     /**
@@ -89,7 +89,7 @@ public class SearchController {
     public String getSearchHot(){
         Map<String, Object> data = new HashMap<>();
         data.put("type", 1111);//不知道是啥~
-        String url = ApiUrl.searchHotUrl;
+        String url = CloudMusicApiUrl.searchHotUrl;
         String key="/search/hot";
         return resultCacheUtils.createCache(key,url,data,60*60*1);
     }

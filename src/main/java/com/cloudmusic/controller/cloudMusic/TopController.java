@@ -1,9 +1,9 @@
-package com.cloudmusic.controller;
+package com.cloudmusic.controller.cloudMusic;
 
-import com.cloudmusic.api.ApiUrl;
-import com.cloudmusic.utils.CreateWebRequest;
-import com.cloudmusic.utils.Result;
-import com.cloudmusic.utils.ResultCacheUtils;
+import com.cloudmusic.api.CloudMusicApiUrl;
+import com.cloudmusic.request.cloudMusic.CreateWebRequest;
+import com.cloudmusic.result.Result;
+import com.cloudmusic.request.cloudMusic.ResultCacheUtils;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,7 +37,7 @@ public class TopController {
         Map<String, Object> data = new HashMap<>();
         data.put("id", topList.get(idx));
         data.put("n", 10000);
-        return CreateWebRequest.createWebPostRequest(ApiUrl.topDataUrl, data, new HashMap<>());
+        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.topDataUrl, data, new HashMap<>());
 
     }
 
@@ -51,7 +51,7 @@ public class TopController {
     public String getTopArtistList(String type) {
         Map<String, Object> data = new HashMap<>();
         data.put("type", type);//todo 具体值还没挖掘到~
-        return CreateWebRequest.createWebPostRequest(ApiUrl.topArtistUrl, data, new HashMap<>());
+        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.topArtistUrl, data, new HashMap<>());
 
     }
     /**
@@ -62,7 +62,7 @@ public class TopController {
     @RequestMapping("/top/list")
     public String getTopList() {
         Map<String, Object> data = new HashMap<>();
-        return CreateWebRequest.createWebPostRequest(ApiUrl.topListUrl, data, new HashMap<>());
+        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.topListUrl, data, new HashMap<>());
 
     }
     /**
@@ -74,7 +74,7 @@ public class TopController {
     public String getTopListDetail() {
         Map<String, Object> data = new HashMap<>();
         String key="/top/detail";
-        return resultCacheUtils.createCache(key,ApiUrl.topListDetailUrl,data,60*60*24);
+        return resultCacheUtils.createCache(key, CloudMusicApiUrl.topListDetailUrl,data,60*60*24);
     }
 
 

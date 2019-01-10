@@ -1,10 +1,10 @@
-package com.cloudmusic.controller;
+package com.cloudmusic.controller.cloudMusic;
 
 import com.cloudmusic.base.RedisUtil;
-import com.cloudmusic.api.ApiUrl;
-import com.cloudmusic.utils.CreateWebRequest;
-import com.cloudmusic.utils.Result;
-import com.cloudmusic.utils.ResultCacheUtils;
+import com.cloudmusic.api.CloudMusicApiUrl;
+import com.cloudmusic.request.cloudMusic.CreateWebRequest;
+import com.cloudmusic.result.Result;
+import com.cloudmusic.request.cloudMusic.ResultCacheUtils;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,7 +44,7 @@ public class ArtistController {
         data.put("categoryCode", cat);//具体值请看最下面注释
         data.put("limit", limit);
         data.put("offset", offset);
-        return CreateWebRequest.createWebPostRequest(ApiUrl.artistListUrl, data, new HashMap<>());
+        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.artistListUrl, data, new HashMap<>());
     }
 
     /**
@@ -67,8 +67,8 @@ public class ArtistController {
             data.put("limit", limit);
             data.put("offset", offset);
             //存储到redis
-            result=CreateWebRequest.createWebPostRequest(ApiUrl.artistListHotUrl, data, new HashMap<>());
-            redisUtil.set(key,result,3600*24);
+            result=CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.artistListHotUrl, data, new HashMap<>());
+            redisUtil.set(key,result,20);
         }
         return result;
     }
@@ -83,7 +83,7 @@ public class ArtistController {
         if (id == null || id.trim().equals("")) {
             return new JSONObject(new Result(0, "缺少必填参数")).toString();
         }
-        String url = ApiUrl.artistSongUrl.replace("{id}", id);
+        String url = CloudMusicApiUrl.artistSongUrl.replace("{id}", id);
         String key="/artist/song/"+id;
         return resultCacheUtils.createCache(key,url,new HashMap<>(),120);
     }
@@ -107,7 +107,7 @@ public class ArtistController {
         data.put("offset", offset);
         data.put("limit", limit);
 
-        return CreateWebRequest.createWebPostRequest(ApiUrl.artistMvUrl, data, new HashMap<>());
+        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.artistMvUrl, data, new HashMap<>());
     }
 
     /**
@@ -127,7 +127,7 @@ public class ArtistController {
         offset = offset == null ? 0 : offset;
         data.put("offset", offset);
         data.put("limit", limit);
-        String url = ApiUrl.artistAlbumUrl.replace("{id}", id);
+        String url = CloudMusicApiUrl.artistAlbumUrl.replace("{id}", id);
         return CreateWebRequest.createWebPostRequest(url, data, new HashMap<>());
     }
 
@@ -143,7 +143,7 @@ public class ArtistController {
         }
         HashMap<String, Object> data = new HashMap<>();
         data.put("id", id);
-        return CreateWebRequest.createWebPostRequest(ApiUrl.artistDescUrl, data, new HashMap<>());
+        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.artistDescUrl, data, new HashMap<>());
     }
 
     //---需要登陆的接口---
@@ -161,7 +161,7 @@ public class ArtistController {
         }
         HashMap<String, Object> data = new HashMap<>();
         data.put("artistId", id);
-        return CreateWebRequest.createWebPostRequest(ApiUrl.ArtistSubUrl, data, CreateWebRequest.getCookie(request));
+        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.ArtistSubUrl, data, CreateWebRequest.getCookie(request));
     }
 
     /**
@@ -178,7 +178,7 @@ public class ArtistController {
         HashMap<String, Object> data = new HashMap<>();
         data.put("artistId", id);
         data.put("artistIds", "["+id+"]");
-        return CreateWebRequest.createWebPostRequest(ApiUrl.ArtistUnsubUrl, data, CreateWebRequest.getCookie(request));
+        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.ArtistUnsubUrl, data, CreateWebRequest.getCookie(request));
     }
 
     /**
@@ -196,7 +196,7 @@ public class ArtistController {
         data.put("offset", offset);
         data.put("total", "true");
         data.put("limit", limit);
-        return CreateWebRequest.createWebPostRequest(ApiUrl.ArtistSublistUrl, data, CreateWebRequest.getCookie(request));
+        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.ArtistSublistUrl, data, CreateWebRequest.getCookie(request));
     }
 }
 

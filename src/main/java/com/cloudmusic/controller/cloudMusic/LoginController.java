@@ -1,8 +1,8 @@
-package com.cloudmusic.controller;
+package com.cloudmusic.controller.cloudMusic;
 
-import com.cloudmusic.api.ApiUrl;
-import com.cloudmusic.utils.CreateWebRequest;
-import com.cloudmusic.utils.MusicUtil;
+import com.cloudmusic.api.CloudMusicApiUrl;
+import com.cloudmusic.request.cloudMusic.CreateWebRequest;
+import com.cloudmusic.utils.CloudMusicUtil;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,12 +30,12 @@ public class LoginController {
     @RequestMapping("/login_phone")
     public String loginByPhone(String phone, String password, HttpServletResponse response) throws Exception {
         //md5加密
-        password = MusicUtil.md5(password);
+        password = CloudMusicUtil.md5(password);
         Map<String, Object> data = new HashMap<>();
         data.put("phone", phone);
         data.put("password", password);
         data.put("rememberLogin", "true");
-        return CreateWebRequest.createLoginRequest(ApiUrl.cellPhoneLoginUrl, data, new HashMap<>(), response);
+        return CreateWebRequest.createLoginRequest(CloudMusicApiUrl.cellPhoneLoginUrl, data, new HashMap<>(), response);
     }
     /**
      * 邮箱登陆接口(建议用户使用post请求)
@@ -48,12 +48,12 @@ public class LoginController {
     @RequestMapping("/login_email")
     public String loginByEmail(String email, String password, HttpServletResponse response) throws Exception {
         //md5加密
-        password = MusicUtil.md5(password);
+        password = CloudMusicUtil.md5(password);
         Map<String, Object> data = new HashMap<>();
         data.put("username", email);
         data.put("password", password);
         data.put("rememberLogin", "true");
-        return CreateWebRequest.createLoginRequest(ApiUrl.emailLoginUrl, data, new HashMap<>(), response);
+        return CreateWebRequest.createLoginRequest(CloudMusicApiUrl.emailLoginUrl, data, new HashMap<>(), response);
     }
 
     /**
@@ -64,7 +64,7 @@ public class LoginController {
      */
     @RequestMapping("/login/refresh")
     public String refreshLogin(HttpServletRequest request) throws Exception {
-        return CreateWebRequest.createWebPostRequest(ApiUrl.RefreshLoginUrl,new HashMap<>(),CreateWebRequest.getCookie(request));
+        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.RefreshLoginUrl,new HashMap<>(),CreateWebRequest.getCookie(request));
     }
 
 }

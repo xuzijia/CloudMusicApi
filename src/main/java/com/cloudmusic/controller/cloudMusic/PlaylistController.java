@@ -1,9 +1,9 @@
-package com.cloudmusic.controller;
+package com.cloudmusic.controller.cloudMusic;
 
-import com.cloudmusic.api.ApiUrl;
-import com.cloudmusic.utils.CreateWebRequest;
-import com.cloudmusic.utils.Result;
-import com.cloudmusic.utils.ResultCacheUtils;
+import com.cloudmusic.api.CloudMusicApiUrl;
+import com.cloudmusic.request.cloudMusic.CreateWebRequest;
+import com.cloudmusic.result.Result;
+import com.cloudmusic.request.cloudMusic.ResultCacheUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +32,9 @@ public class PlaylistController {
      */
     @RequestMapping("/playlist/catlist")
     public String getPlayListCatList(){
-        return CreateWebRequest.createWebPostRequest(ApiUrl.playlistCatListUrl,new HashMap<>(),new HashMap<>());
+        String url = CloudMusicApiUrl.playlistCatListUrl;
+        String key="/playlist/catlist";
+        return resultCacheUtils.createCache(key,url,new HashMap<>(),-1);
     }
 
     /**
@@ -41,7 +43,7 @@ public class PlaylistController {
      */
     @RequestMapping("/playlist/hotcatlist")
     public String getPlayListHotCatList(){
-        return CreateWebRequest.createWebPostRequest(ApiUrl.playlistHotCatListUrl,new HashMap<>(),new HashMap<>());
+        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.playlistHotCatListUrl,new HashMap<>(),new HashMap<>());
     }
 
     /**
@@ -55,11 +57,12 @@ public class PlaylistController {
             return new JSONObject(new Result(0, "缺少必填参数")).toString();
         }
         HashMap<String, Object> data = new HashMap<>();
-        data.put("id",id);
-        data.put("n",100000);
-        String url = ApiUrl.playlistDetailUrl.replace("{id}", id);
+        //20181211会出现只能获取歌单的第一首歌的问题 注释这些参数即可解决~
+        //data.put("id",id);
+        //data.put("n",100000);
+        String url = CloudMusicApiUrl.playlistDetailUrl.replace("{id}",id);
         String key="/playlist/detail/"+id;
-        return resultCacheUtils.createCache(key,url,data,60*60*2);
+        return resultCacheUtils.createCache(key,url,data,60*1);
     }
 
 
@@ -80,7 +83,7 @@ public class PlaylistController {
         data.put("limit",limit);
         data.put("offset",offset);
         data.put("total",true);
-        return CreateWebRequest.createWebPostRequest(ApiUrl.playlistPersonalizedUrl, data, CreateWebRequest.getCookie(request));
+        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.playlistPersonalizedUrl, data, CreateWebRequest.getCookie(request));
     }
 
     /**
@@ -96,7 +99,7 @@ public class PlaylistController {
         limit=limit==null?20:limit;
         data.put("cat",cat);
         data.put("limit",limit);
-        return CreateWebRequest.createWebPostRequest(ApiUrl.playlistHighqualityUrl,data,new HashMap<>());
+        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.playlistHighqualityUrl,data,new HashMap<>());
     }
 
 
@@ -120,21 +123,28 @@ public class PlaylistController {
         data.put("limit",limit);
         data.put("offset",offset);
         String key="/playlist/list/"+cat+"/"+limit+"/"+offset;
-        return resultCacheUtils.createCache(key,ApiUrl.playlistListUrl,data,60*60*1);
+        return resultCacheUtils.createCache(key, CloudMusicApiUrl.playlistListUrl,data,1);
     }
 
     /**
      * 获取指定用户歌单
      * @param id *用户id 必传
+     * @param limit 歌单数量(默认值：20)
+     * @param offset 偏移量(默认值：0)
      * @return 用户歌单
      */
     @RequestMapping("/playlist/user")
-    public String getPlayList(String id){
+    public String getPlayList(String id,Integer limit,Integer offset){
+        if (id == null || id.trim().equals("")) {
+            return new JSONObject(new Result(0, "缺少必填参数")).toString();
+        }
+        limit=limit==null?20:limit;
+        offset=offset==null?0:offset;
         HashMap<String, Object> data = new HashMap<>();
         data.put("uid",id);
-        data.put("limit",20);//好像没用 但是又不能少这个参数~
-        data.put("offset",0);
-        return CreateWebRequest.createWebPostRequest(ApiUrl.userPlaylistUrl,data,new HashMap<>());
+        data.put("limit",limit);//好像没用 但是又不能少这个参数~
+        data.put("offset",offset);
+        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.userPlaylistUrl,data,new HashMap<>());
     }
 
     /**
@@ -150,7 +160,7 @@ public class PlaylistController {
         }
         Map<String,Object> data=new HashMap<>();
         data.put("name",name);
-        return CreateWebRequest.createWebPostRequest(ApiUrl.createPlaylistUrl,data,CreateWebRequest.getCookie(request));
+        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.createPlaylistUrl,data,CreateWebRequest.getCookie(request));
     }
 
     /**
@@ -171,7 +181,7 @@ public class PlaylistController {
         type=type.equals("1")?"subscribe":"unsubscribe";
         Map<String,Object> data=new HashMap<>();
         data.put("id",id);
-        return CreateWebRequest.createWebPostRequest(ApiUrl.PlaylistSubUrl.replace("{action}",type),data,CreateWebRequest.getCookie(request));
+        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.PlaylistSubUrl.replace("{action}",type),data,CreateWebRequest.getCookie(request));
     }
 
     /**
@@ -200,7 +210,7 @@ public class PlaylistController {
         JSONArray jsonArray = new JSONArray(mid.split(","));
         //将歌曲数据转成json数据
         data.put("trackIds",jsonArray.toString());
-        return CreateWebRequest.createWebPostRequest(ApiUrl.PlaylistTracksUrl,data,CreateWebRequest.getCookie(request));
+        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.PlaylistTracksUrl,data,CreateWebRequest.getCookie(request));
     }
 
 }

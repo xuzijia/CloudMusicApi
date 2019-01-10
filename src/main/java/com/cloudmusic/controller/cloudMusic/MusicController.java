@@ -1,9 +1,9 @@
-package com.cloudmusic.controller;
+package com.cloudmusic.controller.cloudMusic;
 
-import com.cloudmusic.api.ApiUrl;
-import com.cloudmusic.utils.CreateWebRequest;
-import com.cloudmusic.utils.Result;
-import com.cloudmusic.utils.ResultCacheUtils;
+import com.cloudmusic.api.CloudMusicApiUrl;
+import com.cloudmusic.request.cloudMusic.CreateWebRequest;
+import com.cloudmusic.result.Result;
+import com.cloudmusic.request.cloudMusic.ResultCacheUtils;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,7 +32,7 @@ public class MusicController {
         if(id==null || id.trim().equals("")){
             return new JSONObject(new Result(0, "缺少必填参数")).toString();
         }
-        String url= ApiUrl.SongDetailUrl.replace("{id}",id);
+        String url= CloudMusicApiUrl.SongDetailUrl.replace("{id}",id);
         return CreateWebRequest.createWebPostRequest(url,new HashMap<>(),new HashMap<>());
     }
     /**
@@ -45,7 +45,7 @@ public class MusicController {
         if(id==null || id.trim().equals("")){
             return new JSONObject(new Result(0, "缺少必填参数")).toString();
         }
-        String url=ApiUrl.SongLyricUrl.replace("{id}",id);
+        String url= CloudMusicApiUrl.SongLyricUrl.replace("{id}",id);
         String key="/artist/lyric/"+id;
         return resultCacheUtils.createCache(key,url,new HashMap<>(),60*60*24*15);
     }
@@ -64,7 +64,7 @@ public class MusicController {
         Map<String,String> data=new HashMap<>();
         String[] split = ids.split(",");
         for(String id:split){
-            data.put(id,ApiUrl.FinalSongUrl.replace("{id}",id));
+            data.put(id, CloudMusicApiUrl.FinalSongUrl.replace("{id}",id));
         }
         return new JSONObject(data).toString();
     }
@@ -84,7 +84,7 @@ public class MusicController {
         Map<String,Object> data=new HashMap<>();
         data.put("ids",ids.split(","));
         data.put("br",br);
-        return CreateWebRequest.createWebPostRequest(ApiUrl.songPlayerUrl,data,new HashMap<>());
+        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.songPlayerUrl,data,new HashMap<>());
     }
 
     /**
@@ -95,7 +95,7 @@ public class MusicController {
     public String getSongPersonalized() throws Exception {
         Map<String,Object> data=new HashMap<>();
         data.put("type","recommend");
-        return CreateWebRequest.createWebPostRequest(ApiUrl.songPersonalizedUrl,data,new HashMap<>());
+        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.songPersonalizedUrl,data,new HashMap<>());
     }
 
 }
