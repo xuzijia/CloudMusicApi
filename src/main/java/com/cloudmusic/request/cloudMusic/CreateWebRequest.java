@@ -35,7 +35,8 @@ public class CreateWebRequest {
             Document document = Jsoup.connect(url).
                     userAgent(randomUserAgent()).
                     data(arithmeticParam).
-                    cookies(cookie).
+                    //解决评论接口460问题
+                    cookies(cookie).cookie("_ntes_nuid","1234567890123456").
                     //header请求头
                             header("Accept", "*/*").
                             header("Accept-Language", "zh-CN,zh;q=0.8,gl;q=0.6,zh-TW;q=0.4").
