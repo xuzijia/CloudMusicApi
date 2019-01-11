@@ -47,7 +47,8 @@ public class CreateWebRequest {
                             ignoreContentType(true).
                             post();
             //返回结果数据
-            return document.text();
+            String result = document.text();
+            return result;
         } catch (Exception e) {
             e.printStackTrace();
             return new JSONObject(new Result(500, "找不到资源")).toString();
