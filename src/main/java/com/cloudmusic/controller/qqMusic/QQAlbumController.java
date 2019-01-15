@@ -12,25 +12,25 @@ import java.util.Map;
 
 /**
  * @author simple
- * @description 歌手相关接口
- * @date 2019/1/10 12:41
+ * @description 有关专辑相关接口
+ * @date 2019/1/12 09:11
  */
-@RestController
 @RequestMapping("/qq")
-public class SingerController {
+@RestController
+public class QQAlbumController {
     /**
-     * 获取歌手详情
-     * @param singermid 歌手id 必传
-     * @return 排行榜歌曲数据
+     * 获取专辑详情
+     * @param albummid 专辑id 必传
+     * @return 专辑详情
      */
-    @RequestMapping("/singer/detail")
-    public String getRankDetail(String singermid){
-        if(singermid==null){
+    @RequestMapping("/album/detail")
+    public String getSingerSongsList(String albummid){
+        if(albummid==null){
             return new JSONObject(new Result(0, "缺少必填参数")).toString();
         }
         Map<String,String> data=new HashMap<>();
-        data.put("singermid",singermid);
-        String result = CreateQQWebRequest.createWebGetRequest(QQMusicApiUrl.singerDetailUrl, data,false);
+        data.put("albummid",albummid);
+        String result = CreateQQWebRequest.createWebGetRequest(QQMusicApiUrl.albumDetailUrl, data);
         return result;
     }
 }

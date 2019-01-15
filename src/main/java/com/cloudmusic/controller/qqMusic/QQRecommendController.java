@@ -14,14 +14,14 @@ import java.util.HashMap;
  */
 @RestController
 @RequestMapping("/qq")
-public class RecommendController {
+public class QQRecommendController {
     /**
      * 获取轮播图列表数据
      * @return 轮播图列表数据
      */
     @RequestMapping("/recommend/banner")
     public String getRankList(){
-        String result = CreateQQWebRequest.createWebGetRequest(QQMusicApiUrl.bannerUrl, new HashMap<>(),false);
+        String result = CreateQQWebRequest.createWebGetRequest(QQMusicApiUrl.bannerUrl, new HashMap<>());
         return result;
     }
 }
