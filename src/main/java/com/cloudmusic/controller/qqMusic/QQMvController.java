@@ -17,7 +17,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/qq")
-public class MvController {
+public class QQMvController {
     /**
      * 获取mv列表
      * @param lan mv分类
@@ -31,7 +31,7 @@ public class MvController {
         Map<String,String> data=new HashMap<>();
         data.put("lan",lan);
         data.put("cmd","shoubo");
-        String result = CreateQQWebRequest.createWebGetRequest(QQMusicApiUrl.mvListUrl, data,true);
+        String result = CreateQQWebRequest.createWebGetRequest(QQMusicApiUrl.mvListUrl, data);
         return result;
     }
 }

@@ -14,14 +14,14 @@ import java.util.HashMap;
  */
 @RestController
 @RequestMapping("/qq")
-public class SearchController {
+public class QQSearchController {
     /**
      * 获取热门搜索
      * @return 排行榜列表
      */
     @RequestMapping("/search/hotkey")
     public String getRankList(){
-        String result = CreateQQWebRequest.createWebGetRequest(QQMusicApiUrl.hotSearchKeyUrl, new HashMap<>(),false);
+        String result = CreateQQWebRequest.createWebGetRequest(QQMusicApiUrl.hotSearchKeyUrl, new HashMap<>());
         return result;
     }
 }
