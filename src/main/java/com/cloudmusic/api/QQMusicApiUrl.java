@@ -37,9 +37,22 @@ public class QQMusicApiUrl {
 
     //获取热门搜索
     public static final String hotSearchKeyUrl="https://c.y.qq.com/splcloud/fcgi-bin/gethotkey.fcg";
+    //搜索接口
+    public static final String SearchUrl="https://c.y.qq.com/soso/fcgi-bin/client_search_cp";
+
+
     //获取mv列表
     public static final String mvListUrl="https://c.y.qq.com/mv/fcgi-bin/getmv_by_tag";
 
     //首页推荐数据
     public static final String recommendUrl="https://u.y.qq.com/cgi-bin/musicu.fcg";
+
+    //获取核心加密参数vkey
+    public static final String vkeyUrl="https://c.y.qq.com/base/fcgi-bin/fcg_music_express_mobile3.fcg";
+    //guid
+    public static final String guid="2295443695";
+
+    //音乐源地址
+    public static final String MusicSourceUrl="http://dl.stream.qqmusic.qq.com/{1}?vkey={2}&guid="+guid+"&fromtag=1";
+
 }
