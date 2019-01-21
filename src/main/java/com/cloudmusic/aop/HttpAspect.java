@@ -21,6 +21,7 @@ public class HttpAspect {
     String methodName;      // 方法名
     String uri;//请求地址
     long startTime;         // 开始时间
+    String ip;
 
     private final Logger logger= LoggerFactory.getLogger(HttpAspect.class);
 
@@ -32,6 +33,7 @@ public class HttpAspect {
     public void doBefore(JoinPoint joinPoint) {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
+        ip = request.getHeader("X-Real-IP");
         uri = request.getRequestURI();
         methodName = joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName();
         startTime = System.currentTimeMillis();
@@ -40,10 +42,11 @@ public class HttpAspect {
     @After("aopPointCut()")
     public void doAfter() {
         long E_time = System.currentTimeMillis() - startTime;
-        logger.info("执行 [" + uri + "] 耗时为：" + E_time + "ms");
+        logger.info("["+ip+"] 执行 [" + uri + "] 耗时为：" + E_time + "ms");
     }
 
     @AfterReturning(returning = "object", pointcut = "aopPointCut()")
     public void doAfterReturning(Object object) {
     }
+
 }

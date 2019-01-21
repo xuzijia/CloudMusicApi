@@ -1,6 +1,5 @@
 package com.cloudmusic.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -10,8 +9,5 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class WelcomeController {
-    @GetMapping("/")
-    public String root(){
-        return "<div style='text-align:center;color:#46ce46;margin-top:300px;'><img src='/images/icon-spring-boot.svg' width=100 height:100/><h1>Welcome Use MUSIC API</h1></div>";
-    }
+
 }
