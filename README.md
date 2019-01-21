@@ -3,6 +3,8 @@
 基于**SpringBoot**构建 
 
 
+#####项目仅供个人学习使用，非商用用途，如果涉及版权问题，请及时告知。
+
 ## 灵感来自
 
 [Binaryify/NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi)
