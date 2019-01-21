@@ -1,6 +1,6 @@
-# 网易云音乐 API
+# 三大音乐API接口(网易云音乐+QQ音乐+酷狗音乐)
 
-网易云音乐 基于**SpringBoot**构建 
+基于**SpringBoot**构建 
 
 
 ## 灵感来自
@@ -37,14 +37,4 @@
 
 ```shell
 $ git clone https://github.com/xuzijia/CloudMusicApi.git
-```
-
-## 部署运行
-
-
-
-```shell
-将项目打包为jar包
-java -jar CloudMusicApi-1.0.jar
-默认端口：3001(可更改src/main/resources/application.properties配置文件进行修改)
 ```
