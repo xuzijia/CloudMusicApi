@@ -30,3 +30,12 @@
 ```shell
 $ git clone https://github.com/xuzijia/CloudMusicApi.git
 ```
+
+## 接口示例
+
+
+![示例1](https://raw.githubusercontent.com/xuzijia/CloudMusicApi/master/show/Snip20190122_14.png)
+
+
+
+![示例2](https://raw.githubusercontent.com/xuzijia/CloudMusicApi/master/show/Snip20190122_15.png)
