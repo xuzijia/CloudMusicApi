@@ -12,6 +12,9 @@
 ## 网易云音乐算法参考
 [网易云加密算法](https://www.jianshu.com/p/07ebbb142c73)
 
+## Vue-Music移动端webApp
+[Vue-Music](https://github.com/xuzijia/vue-music)
+
 ## 接口文档
 [接口文档(编写中)](https://github.com/xuzijia/CloudMusicApi)
 
