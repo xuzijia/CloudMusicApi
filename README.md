@@ -33,8 +33,14 @@ Github传送门： [https://github.com/xuzijia/vue-music](https://github.com/xuz
 $ git clone https://github.com/xuzijia/CloudMusicApi.git
 ```
 
-## 接口示例
 
+## 架构全面升级预想
+
+![示例1](https://raw.githubusercontent.com/xuzijia/CloudMusicApi/master/show/springcloud.jpg)
+
+
+
+## 接口示例
 
 ![示例1](https://raw.githubusercontent.com/xuzijia/CloudMusicApi/master/show/Snip20190122_14.png)
 
