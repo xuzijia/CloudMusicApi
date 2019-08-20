@@ -17,7 +17,7 @@ Github传送门： [https://github.com/xuzijia/vue-music](https://github.com/xuz
 
 线上项目演示： [http://91cloud.top](http://91cloud.top)
 
-## 接口文档G
+## 接口文档
 [接口文档(编写中)](https://github.com/xuzijia/CloudMusicApi)
 
 ## 新增接口数据缓存(20181210)
