@@ -45,9 +45,15 @@ public class MusicController {
         if(id==null || id.trim().equals("")){
             return new JSONObject(new Result(0, "缺少必填参数")).toString();
         }
-        String url= CloudMusicApiUrl.SongLyricUrl.replace("{id}",id);
-        String key="/artist/lyric/"+id;
-        return resultCacheUtils.createCache(key,url,new HashMap<>(),60*60*24*15);
+        String url= CloudMusicApiUrl.SongLyricUrl;
+        Map<String,Object> params=new HashMap<>();
+        params.put("id",id);
+        params.put("lv","-1");
+        params.put("kv","-1");
+        params.put("tv","-1");
+        Map<String,String> cookie = new HashMap<>();
+        cookie.put("os","pc");
+        return CreateWebRequest.createWebPostRequest(url,params,cookie);
     }
 
     /**

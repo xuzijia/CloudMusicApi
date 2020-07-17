@@ -15,6 +15,12 @@ public class CloudMusicApiUrl {
     public static final String emailLoginUrl = DOMAIN + "/weapi/login?email=xxx@163.com&password=yyy";
     //刷新登陆状态
     public static final String RefreshLoginUrl = DOMAIN + "/weapi/login/token/refresh";
+    //发送手机验证码接口 (新增于20200710)
+    public static final String smsSendUrl = DOMAIN + "/weapi/sms/captcha/sent";
+    //验证手机验证码接口 (新增于20200710)
+    public static final String smsVerfiyUrl = DOMAIN + "/weapi/sms/captcha/verify";
+    //检测手机号是否被注册 (新增于20200710)
+    public static final String smsCheckPhoneUrl = DOMAIN + "/eapi/cellphone/existence/check";
 
     //音乐评论API
     public static final String MusicCommentUrl = DOMAIN + "/weapi/v1/resource/comments/R_SO_4_{id}";
@@ -32,7 +38,9 @@ public class CloudMusicApiUrl {
     //获取歌曲详情API
     public static final String SongDetailUrl = DOMAIN + "/api/song/detail/?id={id}&ids=[{id}]";
     //歌曲歌词API
-    public static final String SongLyricUrl = DOMAIN + "/weapi/song/lyric?os=osx&id={id}&lv=-1&kv=-1&tv=-1";
+    //public static final String SongLyricUrl = DOMAIN + "/weapi/song/lyric?os=osx&id={id}&lv=-1&kv=-1&tv=-1";
+    public static final String SongLyricUrl = DOMAIN + "/api/song/lyric";
+
     //歌曲播放地址API(该地址可以直接get请求)
     public static final String FinalSongUrl = DOMAIN + "/song/media/outer/url?id={id}.mp3";
     //歌曲播放地址API(可以有多个id)
@@ -70,7 +78,12 @@ public class CloudMusicApiUrl {
     //歌单分类API
     public static final String playlistCatListUrl = DOMAIN + "/weapi/playlist/catalogue";
     //歌单详细内容API (ps:20181211该api会出现只能获取歌单的第一首歌的问题 请使用下面最新的api)
-    public static final String playlistDetailUrl = DOMAIN + "/api/playlist/detail?id={id}";
+    //public static final String playlistDetailUrl = DOMAIN + "/api/playlist/detail?id={id}";
+
+    //歌单详细内容API （20200717 修复接口数据错乱问题
+    public static final String playlistDetailUrl = DOMAIN + "/weapi/v3/playlist/detail";
+
+
     //最新获取歌单详细内容API
 //    public static final String playlistDetailUrl = DOMAIN + "/weapi/v3/playlist/detail";
 

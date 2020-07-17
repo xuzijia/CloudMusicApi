@@ -57,12 +57,11 @@ public class PlaylistController {
             return new JSONObject(new Result(0, "缺少必填参数")).toString();
         }
         HashMap<String, Object> data = new HashMap<>();
-        //20181211会出现只能获取歌单的第一首歌的问题 注释这些参数即可解决~
-        //data.put("id",id);
-        //data.put("n",100000);
-        String url = CloudMusicApiUrl.playlistDetailUrl.replace("{id}",id);
-        String key="/playlist/detail/"+id;
-        return resultCacheUtils.createCache(key,url,data,60*1);
+        data.put("id",id);
+        data.put("n",100000);
+        data.put("s",100);
+        String url = CloudMusicApiUrl.playlistDetailUrl;
+        return CreateWebRequest.createWebPostRequest(url, data,new HashMap<>());
     }
 
 

@@ -73,8 +73,7 @@ public class TopController {
     @RequestMapping("/top/detail")
     public String getTopListDetail() {
         Map<String, Object> data = new HashMap<>();
-        String key="/top/detail";
-        return resultCacheUtils.createCache(key, CloudMusicApiUrl.topListDetailUrl,data,60*60*24);
+        return  CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.topListDetailUrl,data,new HashMap<>());
     }
 
 

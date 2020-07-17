@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 public class OriginInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Origin", "http://10.107.0.20");
         response.setHeader("Access-Control-Allow-Credentials", "true");
         return true;
     }

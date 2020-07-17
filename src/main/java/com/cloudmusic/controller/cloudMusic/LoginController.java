@@ -2,7 +2,10 @@ package com.cloudmusic.controller.cloudMusic;
 
 import com.cloudmusic.api.CloudMusicApiUrl;
 import com.cloudmusic.request.cloudMusic.CreateWebRequest;
+import com.cloudmusic.result.Result;
 import com.cloudmusic.utils.CloudMusicUtil;
+import org.json.JSONObject;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -65,6 +68,74 @@ public class LoginController {
     @RequestMapping("/login/refresh")
     public String refreshLogin(HttpServletRequest request) throws Exception {
         return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.RefreshLoginUrl,new HashMap<>(),CreateWebRequest.getCookie(request));
+    }
+
+
+    /**
+     * 发送手机验证码
+     *
+     * @return
+     * @param cellphone 手机号码
+     * @param ctcode 国家区号 默认为86 即中国地区
+     * @throws Exception
+     */
+    @RequestMapping("/login/smsSend")
+    public String smsSend(String cellphone, String ctcode, HttpServletRequest request) throws Exception {
+        if(cellphone==null || cellphone.trim().equals("")){
+            return new JSONObject(new Result(0, "缺少必填参数")).toString();
+        }
+        Map<String, Object> data = new HashMap<>();
+        if(StringUtils.isEmpty(ctcode)){
+            ctcode="86";
+        }
+        data.put("ctcode", ctcode);
+        data.put("cellphone", cellphone);
+        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.smsSendUrl, data, CreateWebRequest.getCookie(request));
+    }
+
+    /**
+     * 验证验证码
+     *
+     * @return
+     * @param cellphone 手机号码
+     * @param ctcode 国家区号 默认为86 即中国地区
+     * @param captcha 验证码
+     * @throws Exception
+     */
+    @RequestMapping("/login/smsVerify")
+    public String smsVerify(String cellphone, String ctcode, String captcha,HttpServletRequest request) throws Exception {
+        if(cellphone==null || cellphone.trim().equals("") || captcha==null || captcha.trim().equals("")){
+            return new JSONObject(new Result(0, "缺少必填参数")).toString();
+        }
+        Map<String, Object> data = new HashMap<>();
+        if(StringUtils.isEmpty(ctcode)){
+            ctcode="86";
+        }
+        data.put("ctcode", ctcode);
+        data.put("cellphone", cellphone);
+        data.put("captcha", captcha);
+        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.smsVerfiyUrl, data, CreateWebRequest.getCookie(request));
+    }
+    /**
+     * 检测手机号是否被注册
+     *
+     * @return
+     * @param cellphone 手机号码
+     * @param ctcode 国家区号 默认为86 即中国地区
+     * @throws Exception
+     */
+    @RequestMapping("/login/smsCheckPhone")
+    public String smsCheckPhone(String cellphone, String ctcode,HttpServletRequest request) throws Exception {
+        if(cellphone==null || cellphone.trim().equals("")){
+            return new JSONObject(new Result(0, "缺少必填参数")).toString();
+        }
+        Map<String, Object> data = new HashMap<>();
+        if(StringUtils.isEmpty(ctcode)){
+            ctcode="86";
+        }
+        data.put("countrycode", ctcode);
+        data.put("cellphone", cellphone);
+        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.smsCheckPhoneUrl, data, CreateWebRequest.getCookie(request));
     }
 
 }
