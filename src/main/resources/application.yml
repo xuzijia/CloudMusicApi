@@ -1,3 +1,8 @@
+application:
+  accountInfo:
+    username: 13049257683
+    password: music123.
+
 server:
   port: 3001
   #redis

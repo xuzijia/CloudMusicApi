@@ -48,6 +48,7 @@ public class QQMusicApiUrl {
     public static final String recommendUrl="https://u.y.qq.com/cgi-bin/musicu.fcg";
 
     //获取核心加密参数vkey
+    //public static final String vkeyUrl="https://c.y.qq.com/base/fcgi-bin/fcg_music_express_mobile3.fcg";
     public static final String vkeyUrl="https://c.y.qq.com/base/fcgi-bin/fcg_music_express_mobile3.fcg";
     //guid
     public static final String guid="2295443695";

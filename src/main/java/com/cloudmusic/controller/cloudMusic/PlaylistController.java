@@ -52,7 +52,7 @@ public class PlaylistController {
      * @return 歌单详细内容
      */
     @RequestMapping("/playlist/detail")
-    public String getPlayListDetail(String id){
+    public String getPlayListDetail(String id,HttpServletRequest request){
         if (id == null || id.trim().equals("")) {
             return new JSONObject(new Result(0, "缺少必填参数")).toString();
         }
@@ -61,7 +61,7 @@ public class PlaylistController {
         data.put("n",100000);
         data.put("s",100);
         String url = CloudMusicApiUrl.playlistDetailUrl;
-        return CreateWebRequest.createWebPostRequest(url, data,new HashMap<>());
+        return CreateWebRequest.createWebPostRequest(url, data,CreateWebRequest.getCookie(request));
     }
 
 

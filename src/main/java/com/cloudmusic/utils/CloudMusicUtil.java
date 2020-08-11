@@ -1,11 +1,16 @@
 package com.cloudmusic.utils;
 
+import com.cloudmusic.api.CloudMusicApiUrl;
+import com.cloudmusic.request.cloudMusic.CreateWebRequest;
 import org.apache.commons.codec.binary.Hex;
 import org.json.JSONObject;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -114,6 +119,30 @@ public class CloudMusicUtil {
             e.printStackTrace();
         }
         return "";
+    }
+
+
+    public static void loginVipAccount(String username, String password, HttpServletResponse response, HttpServletRequest request){
+        //判断是否已经登录了vip账号。
+        Cookie[] cookies = request.getCookies();
+        boolean flag=false;
+        if(cookies!=null){
+            for (Cookie cookie:cookies){
+                if(cookie.getName()!=null & cookie.getName().equals("MUSIC_U")){
+                    flag=true;
+                }
+            }
+        }
+
+        if(!flag){
+            //login vip account
+            password = CloudMusicUtil.md5(password);
+            Map<String, Object> data = new HashMap<>();
+            data.put("phone", username);
+            data.put("password", password);
+            data.put("rememberLogin", "true");
+            CreateWebRequest.createLoginRequest(CloudMusicApiUrl.cellPhoneLoginUrl, data, new HashMap<>(), response);
+        }
     }
 
 }

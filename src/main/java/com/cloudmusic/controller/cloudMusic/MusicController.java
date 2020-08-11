@@ -4,11 +4,22 @@ import com.cloudmusic.api.CloudMusicApiUrl;
 import com.cloudmusic.request.cloudMusic.CreateWebRequest;
 import com.cloudmusic.result.Result;
 import com.cloudmusic.request.cloudMusic.ResultCacheUtils;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,7 +52,7 @@ public class MusicController {
      * @return 歌曲歌词
      */
     @RequestMapping("/song/lyric")
-    public String getSongLyric(String id) throws Exception {
+    public String getSongLyric(String id,HttpServletRequest request) throws Exception {
         if(id==null || id.trim().equals("")){
             return new JSONObject(new Result(0, "缺少必填参数")).toString();
         }
@@ -53,7 +64,7 @@ public class MusicController {
         params.put("tv","-1");
         Map<String,String> cookie = new HashMap<>();
         cookie.put("os","pc");
-        return CreateWebRequest.createWebPostRequest(url,params,cookie);
+        return CreateWebRequest.createWebPostRequest(url,params,CreateWebRequest.getCookie(request));
     }
 
     /**
@@ -63,17 +74,85 @@ public class MusicController {
      * @return 歌曲url
      */
     @RequestMapping("/song/url")
-    public String getSongUrl(String ids) throws Exception {
+    public String getSongUrl(String ids, HttpServletResponse response) throws Exception {
         if(ids==null || ids.trim().equals("")){
             return new JSONObject(new Result(0, "缺少必填参数")).toString();
         }
         Map<String,String> data=new HashMap<>();
         String[] split = ids.split(",");
         for(String id:split){
+            String fileName="";
+            String name="";
+            String singer="";
+            //获取文件相关信息
+            String songDetail = getSongDetail(id);
+            JSONObject jsonObject = new JSONObject(songDetail);
+            JSONArray songs = jsonObject.getJSONArray("songs");
+            if(songs.length()>0){
+                JSONObject jsonObject1 = songs.getJSONObject(0);
+                name = jsonObject1.getString("name");
+                JSONArray artists = jsonObject1.getJSONArray("artists");
+                for (int i=0;i<artists.length();i++){
+                    if(i+1==artists.length()){
+                        singer+=artists.getJSONObject(i).get("name");
+                    }else{
+                        singer+=artists.getJSONObject(i).get("name")+",";
+                    }
+                }
+                fileName= singer+"_"+name;
+            }
+
             data.put(id, CloudMusicApiUrl.FinalSongUrl.replace("{id}",id));
+            String url = CloudMusicApiUrl.FinalSongUrl.replace("{id}", id);
+            URL urlfile = null;
+            HttpURLConnection httpUrl = null;
+            BufferedInputStream bis = null;
+            response.setHeader("Content-disposition", "attachment;filename="+java.net.URLEncoder.encode(fileName,"utf-8")+".mp3" );
+            response.setCharacterEncoding("utf-8");
+            BufferedOutputStream bos  = new BufferedOutputStream(response.getOutputStream());
+            try
+            {
+                urlfile = new URL(url);
+                httpUrl = (HttpURLConnection)urlfile.openConnection();
+                httpUrl.connect();
+                bis = new BufferedInputStream(httpUrl.getInputStream());
+                int len = 2048;
+                byte[] b = new byte[len];
+                while ((len = bis.read(b)) != -1)
+                {
+                    bos.write(b, 0, len);
+                }
+                bos.flush();
+                bis.close();
+                httpUrl.disconnect();
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+            finally
+            {
+                try
+                {
+                    bis.close();
+                    bos.close();
+                }
+                catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+
+
+
+
         }
-        return new JSONObject(data).toString();
+        return null;
+        //return new JSONObject(data).toString();
     }
+
+
+
 
     /**
      * 获取歌曲播放地址(POST请求) 如果code=404 说明歌曲没有版权或者歌曲不存在
@@ -82,15 +161,15 @@ public class MusicController {
      * @return 歌曲url
      */
     @RequestMapping("/song/player")
-    public String getSongPlayer(String ids,Integer br) throws Exception {
+    public String getSongPlayer(String ids, Integer br, HttpServletRequest request) throws Exception {
         if(ids==null || ids.trim().equals("")){
             return new JSONObject(new Result(0, "缺少必填参数")).toString();
         }
-        br=br==null?999000:br;
+        br=br==null?320000:br;
         Map<String,Object> data=new HashMap<>();
         data.put("ids",ids.split(","));
         data.put("br",br);
-        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.songPlayerUrl,data,new HashMap<>());
+        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.songPlayerUrl,data, CreateWebRequest.getCookie(request));
     }
 
     /**

@@ -3,15 +3,21 @@ package com.cloudmusic.controller.cloudMusic;
 import com.cloudmusic.api.CloudMusicApiUrl;
 import com.cloudmusic.request.cloudMusic.CreateWebRequest;
 import com.cloudmusic.result.Result;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -95,6 +101,11 @@ public class MvController {
         return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.videoUrl,data,new HashMap<>());
     }
 
+
+
+
+
+
     /**
      * 播放mv 由于网易云音乐做了防盗链 上面获取到的链接不能直接播放 访问该地址可播放mv
      * jsoup默认请求数据大小为1M 视频文件较大 设置为300M
@@ -102,13 +113,57 @@ public class MvController {
      * @return Mv信息
      */
     @RequestMapping("/mv/player")
-    public void playMv(String url, HttpServletResponse response) throws IOException {
-        Connection.Response execute = Jsoup.connect(url).header("Referer", "http://music.163.com/").
-                header("Content-Type", "video/mp4").header("Location", url).ignoreContentType(true).maxBodySize(300*1024*1024).
-                execute();
-        response.setHeader("Content-Type","video/mp4");
-        response.getOutputStream().write(execute.bodyAsBytes());
+    public void playMv(String id, String quality,HttpServletResponse response) throws IOException {
 
+        String mvDetail = getMvDetail(id);
+        JSONArray jsonObject=new JSONArray(mvDetail);
+        if(StringUtils.isEmpty(quality)){
+            quality="480";
+        }
+        String mvUrl = jsonObject.getJSONObject(0).getJSONObject("data").getJSONObject("brs").getString(quality);
+
+        String fileName="MV_";
+        fileName=fileName+jsonObject.getJSONObject(0).getJSONObject("data").getString("artistName")+"_"+jsonObject.getJSONObject(0).getJSONObject("data").getString("name");
+
+
+        URL urlfile = null;
+        HttpURLConnection httpUrl = null;
+        BufferedInputStream bis = null;
+        response.setHeader("Content-disposition", "attachment;filename="+java.net.URLEncoder.encode(fileName,"utf-8")+".mp4" );
+        response.setCharacterEncoding("utf-8");
+        BufferedOutputStream bos  = new BufferedOutputStream(response.getOutputStream());
+        try
+        {
+            urlfile = new URL(mvUrl);
+            httpUrl = (HttpURLConnection)urlfile.openConnection();
+            httpUrl.connect();
+            bis = new BufferedInputStream(httpUrl.getInputStream());
+            int len = 2048;
+            byte[] b = new byte[len];
+            while ((len = bis.read(b)) != -1)
+            {
+                bos.write(b, 0, len);
+            }
+            bos.flush();
+            bis.close();
+            httpUrl.disconnect();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        finally
+        {
+            try
+            {
+                bis.close();
+                bos.close();
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+        }
     }
 
 

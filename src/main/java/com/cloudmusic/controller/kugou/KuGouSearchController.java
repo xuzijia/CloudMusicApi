@@ -3,6 +3,7 @@ package com.cloudmusic.controller.kugou;
 import com.cloudmusic.api.KuGouMusicApiUrl;
 import com.cloudmusic.request.kugou.CreateKuGouWebRequest;
 import com.cloudmusic.result.Result;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.json.JSONObject;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -39,4 +40,19 @@ public class KuGouSearchController {
         String result = CreateKuGouWebRequest.createWebGetRequest(KuGouMusicApiUrl.searchUrl, data);
         return result;
     }
+
+    /**
+     * 获取歌曲播放地址
+     * @param musicHash 歌曲hash
+     * @return
+     */
+    @RequestMapping("/getSongDetail")
+    public String getPlayerUrl(String musicHash){
+        String md5 = DigestUtils.md5Hex(musicHash+"kgcloud");
+        String songPlayerUrl = KuGouMusicApiUrl.songPlayerUrl;
+        songPlayerUrl=songPlayerUrl.replace("{hash}",musicHash).replace("{key}",md5);
+        String result = CreateKuGouWebRequest.createWebGetRequest(songPlayerUrl, new HashMap<>());
+        return result;
+    }
+
 }

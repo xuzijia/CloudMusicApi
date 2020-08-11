@@ -55,6 +55,34 @@ public class CreateWebRequest {
         }
     }
 
+    public static String createWebPostRequestByReferer(String url, Map<String, Object> data, Map<String, String> cookie,String musicId) {
+        try {
+            //得到加密参数
+            Map<String, String> arithmeticParam = CloudMusicUtil.arithmetic(data);
+            //发起请求
+            Document document = Jsoup.connect(url).
+                    userAgent(randomUserAgent()).
+                    data(arithmeticParam).
+                    //解决评论接口460问题
+                            cookies(cookie).cookie("_ntes_nuid","1234567890123456").
+                    //header请求头
+                            header("Accept", "*/*").
+                            header("Accept-Language", "zh-CN,zh;q=0.8,gl;q=0.6,zh-TW;q=0.4").
+                            header("Connection", "keep-alive").
+                            header("Content-Type", "application/x-www-form-urlencoded").
+                            header("Referer", "hhttps://music.163.com/song?id="+musicId).
+                            header("Host", "music.163.com").
+                            ignoreContentType(true).
+                            post();
+            //返回结果数据
+            String result = document.text();
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new JSONObject(new Result(500, "找不到资源")).toString();
+        }
+    }
+
     /**
      * 发送登陆请求,登陆成功保存cookie
      * @param url api接口地址
