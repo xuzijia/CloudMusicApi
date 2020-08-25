@@ -21,6 +21,10 @@ public class CloudMusicApiUrl {
     public static final String smsVerfiyUrl = DOMAIN + "/weapi/sms/captcha/verify";
     //检测手机号是否被注册 (新增于20200710)
     public static final String smsCheckPhoneUrl = DOMAIN + "/eapi/cellphone/existence/check";
+    //退出登录
+    public static final String logoutUrl = DOMAIN + "/weapi/logout";
+
+
 
     //音乐评论API
     public static final String MusicCommentUrl = DOMAIN + "/weapi/v1/resource/comments/R_SO_4_{id}";
@@ -38,8 +42,9 @@ public class CloudMusicApiUrl {
     //获取歌曲详情API
     public static final String SongDetailUrl = DOMAIN + "/api/song/detail/?id={id}&ids=[{id}]";
     //歌曲歌词API
-    //public static final String SongLyricUrl = DOMAIN + "/weapi/song/lyric?os=osx&id={id}&lv=-1&kv=-1&tv=-1";
-    public static final String SongLyricUrl = DOMAIN + "/api/song/lyric";
+    public static final String SongLyricUrl = DOMAIN + "/api/song/lyric?os=osx&id={id}&lv=-1&kv=-1&tv=-1";
+//    public static final String SongLyricUrl = DOMAIN + "/api/song/lyric";
+//    public static final String SongLyricUrl = "https://api.itooi.cn/netease/lrc?id={id}";
 
     //歌曲播放地址API(该地址可以直接get请求)
     public static final String FinalSongUrl = DOMAIN + "/song/media/outer/url?id={id}.mp3";

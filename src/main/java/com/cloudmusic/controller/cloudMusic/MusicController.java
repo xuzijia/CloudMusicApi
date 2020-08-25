@@ -51,21 +51,37 @@ public class MusicController {
      * @param id *歌曲id 必传
      * @return 歌曲歌词
      */
+//    @RequestMapping("/song/lyric")
+//    public String getSongLyric(String id,HttpServletRequest request) throws Exception {
+//        if(id==null || id.trim().equals("")){
+//            return new JSONObject(new Result(0, "缺少必填参数")).toString();
+//        }
+//        String url= CloudMusicApiUrl.SongLyricUrl;
+//        Map<String,Object> params=new HashMap<>();
+//        params.put("id",id);
+//        params.put("lv","-1");
+//        params.put("kv","-1");
+//        params.put("tv","-1");
+//        Map<String,String> cookie = new HashMap<>();
+//        cookie.put("os","pc");
+//        return CreateWebRequest.createWebPostRequest(url,params,CreateWebRequest.getCookie(request));
+//    }
+
+    /**
+     * 获取歌曲歌词
+     * @param id *歌曲id 必传
+     * @return 歌曲歌词
+     */
     @RequestMapping("/song/lyric")
-    public String getSongLyric(String id,HttpServletRequest request) throws Exception {
+    public Object getSongLyricTemp(String id,HttpServletRequest request) throws Exception {
         if(id==null || id.trim().equals("")){
             return new JSONObject(new Result(0, "缺少必填参数")).toString();
         }
-        String url= CloudMusicApiUrl.SongLyricUrl;
-        Map<String,Object> params=new HashMap<>();
-        params.put("id",id);
-        params.put("lv","-1");
-        params.put("kv","-1");
-        params.put("tv","-1");
-        Map<String,String> cookie = new HashMap<>();
-        cookie.put("os","pc");
-        return CreateWebRequest.createWebPostRequest(url,params,CreateWebRequest.getCookie(request));
+        String url= CloudMusicApiUrl.SongLyricUrl.replace("{id}",id);
+
+        return CreateWebRequest.createWebPostRequest(url, new HashMap<>(), new HashMap<>());
     }
+
 
     /**
      * http://music.163.com/song/media/outer/url?id={id}.mp3

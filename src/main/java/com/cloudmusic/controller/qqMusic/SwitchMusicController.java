@@ -7,6 +7,7 @@ import com.cloudmusic.request.qqMusic.CreateQQWebRequest;
 import com.cloudmusic.result.Result;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,6 +24,9 @@ import java.util.Map;
 @RestController
 public class SwitchMusicController {
 
+    @Value("${application.accountInfo.token}")
+    private String token;
+
     /**
      *根据歌曲名+歌手名 获取qq音乐歌曲地址
      * @return
@@ -37,7 +41,10 @@ public class SwitchMusicController {
         Map<String,Object> cloudData=new HashMap<>();
         cloudData.put("ids",musicId.split(","));
         cloudData.put("br",320000);
-        String cloudMusicData = CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.songPlayerUrl, cloudData, CreateWebRequest.getCookie(request));
+        Map<String, String> cookie = CreateWebRequest.getCookie(request);
+        //设置黑胶vip账号cookie
+        cookie.put("MUSIC_U",token);
+        String cloudMusicData = CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.songPlayerUrl, cloudData, cookie);
         JSONObject cloudJsonData = new JSONObject(cloudMusicData);
         Map<String,Object> cloudResult=new HashMap<>();
         cloudResult.put("code",200);

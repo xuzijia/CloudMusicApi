@@ -138,4 +138,15 @@ public class LoginController {
         return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.smsCheckPhoneUrl, data, CreateWebRequest.getCookie(request));
     }
 
+    /**
+     * 退出登录
+     * @param request
+     * @return
+     */
+    @RequestMapping("/logout")
+    public String logout(HttpServletRequest request){
+        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.logoutUrl,new HashMap<>(),CreateWebRequest.getCookie(request));
+    }
+
+
 }

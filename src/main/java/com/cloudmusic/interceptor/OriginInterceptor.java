@@ -31,9 +31,9 @@ public class OriginInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
 
-        CloudMusicUtil.loginVipAccount(username,password,response,request);
+        //CloudMusicUtil.loginVipAccount(username,password,response,request);
 
-        response.setHeader("Access-Control-Allow-Origin", "http://10.107.0.20");
+        response.setHeader("Access-Control-Allow-Origin", "http://popps.top:7003");
         response.setHeader("Access-Control-Allow-Credentials", "true");
         return true;
     }

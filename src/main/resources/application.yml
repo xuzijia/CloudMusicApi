@@ -2,7 +2,7 @@ application:
   accountInfo:
     username: 13049257683
     password: music123.
-
+    token: 5ed61a383a11652211bf35298ca8c14c060eb205b279e7c72a1f84e261b23ebd33a649814e309366
 server:
   port: 3001
   #redis
