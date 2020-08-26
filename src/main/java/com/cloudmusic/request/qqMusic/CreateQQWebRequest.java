@@ -2,6 +2,7 @@ package com.cloudmusic.request.qqMusic;
 
 import com.cloudmusic.result.Result;
 import org.json.JSONObject;
+import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
@@ -27,6 +28,29 @@ public class CreateQQWebRequest {
             Document post = Jsoup.connect(url).referrer("https://y.qq.com/").
                     data(data).ignoreContentType(true).get();
             return post.text();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new JSONObject(new Result(500, "服务器出错")).toString();
+        }
+    }
+
+    /**
+     * 发送请求
+     *
+     * @param url  api接口地址
+     * @param header 请求头
+     * @return 如果成功返回json结果数据
+     */
+    public static String createWebGetRequest(String url, Map<String,String> params,Map<String, String> header) {
+        try {
+            Connection connection = Jsoup.connect(url).referrer("https://y.qq.com/").
+                    data(params);
+            for (String key:header.keySet()){
+                connection=connection.header(key,header.get(key));
+            }
+            Document document = connection.ignoreContentType(true).get();
+
+            return document.text();
         } catch (Exception e) {
             e.printStackTrace();
             return new JSONObject(new Result(500, "服务器出错")).toString();
