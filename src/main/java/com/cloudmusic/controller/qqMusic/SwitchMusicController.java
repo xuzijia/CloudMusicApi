@@ -36,7 +36,7 @@ public class SwitchMusicController {
      * @return
      */
     @RequestMapping("/switchSource")
-    public String getMusicSource(String searchStr, String musicId, HttpServletRequest request){
+    public Object getMusicSource(String searchStr, String musicId, HttpServletRequest request) throws IOException {
         if(searchStr==null){
             return new JSONObject(new Result(0, "缺少必填参数")).toString();
         }
@@ -52,10 +52,21 @@ public class SwitchMusicController {
         JSONObject cloudJsonData = new JSONObject(cloudMusicData);
         Map<String,Object> cloudResult=new HashMap<>();
         Object url = cloudJsonData.getJSONArray("data").getJSONObject(0).get("url");
-        if(url==null){
-            return new JSONObject(new Result(404, "没有版权")).toString();
+        if(url==null || url.toString().equals("null") || url.toString().equals("")){
             //说明网易云木有这首歌的版权了。切换到qq音乐
-
+            Map<String,String> data= new HashMap<>();
+            data.put("w",searchStr);
+            data.put("remoteplace","txt.yqq.center");
+            String result = CreateQQWebRequest.createWebGetRequest(QQMusicApiUrl.SearchUrl,data);
+            JSONObject jsonObject = new JSONObject(result);
+            if(jsonObject.getInt("code")==0){
+                JSONArray jsonArray = jsonObject.getJSONObject("data").getJSONObject("song").getJSONArray("list");
+                if (jsonArray!=null && jsonArray.length()>0){
+                    String songmid = jsonArray.getJSONObject(0).getString("songmid");
+                    return getMusicUrl(songmid);
+                }
+            }
+            return new JSONObject(new Result(404, "没有版权")).toString();
 
         }else{
             cloudResult.put("code",200);
