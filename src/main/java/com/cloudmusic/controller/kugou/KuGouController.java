@@ -14,12 +14,12 @@ import java.util.Map;
 
 /**
  * @author simple
- * @description 酷狗音乐搜索相关接口
+ * @description 酷狗音乐相关接口
  * @date 2019/1/11 11:18
  */
 @RequestMapping("/kugou")
 @RestController
-public class KuGouSearchController {
+public class KuGouController {
     /**
      * 搜索歌曲
      * @param keyword 搜索关键词
@@ -47,10 +47,24 @@ public class KuGouSearchController {
      * @return
      */
     @RequestMapping("/getSongDetail")
-    public String getPlayerUrl(String musicHash){
+    public String getSongDetail(String musicHash){
         String md5 = DigestUtils.md5Hex(musicHash+"kgcloud");
         String songPlayerUrl = KuGouMusicApiUrl.songPlayerUrl;
         songPlayerUrl=songPlayerUrl.replace("{hash}",musicHash).replace("{key}",md5);
+        String result = CreateKuGouWebRequest.createWebGetRequest(songPlayerUrl, new HashMap<>());
+        return result;
+    }
+
+    /**
+     * 获取mv播放地址 todo 403错误
+     * @param mvHash 歌曲mv hash
+     * @return
+     */
+    @RequestMapping("/getMvDetail")
+    public String getMvDetail(String mvHash){
+        String md5 = DigestUtils.md5Hex(mvHash.toUpperCase()+"kgcloud");
+        String songPlayerUrl = KuGouMusicApiUrl.getMvUrl;
+        songPlayerUrl=songPlayerUrl.replace("{hash}",mvHash.toUpperCase()).replace("{key}",md5);
         String result = CreateKuGouWebRequest.createWebGetRequest(songPlayerUrl, new HashMap<>());
         return result;
     }
