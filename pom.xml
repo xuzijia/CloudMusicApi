@@ -6,7 +6,7 @@
 	<groupId>com.cloudmusic</groupId>
 	<artifactId>CloudMusicApi</artifactId>
 	<version>1.0</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 
 	<name>CloudMusicApi</name>
 	<description>网易云音乐API</description>
