@@ -36,11 +36,14 @@ public class SwitchMusicController {
      * @return
      */
     @RequestMapping("/switchSource")
-    public Object getMusicSource(String searchStr, String musicId, HttpServletRequest request) throws IOException {
+    public Object getMusicSource(String searchStr, String musicId, String musicType, HttpServletRequest request) throws IOException {
         if(searchStr==null){
             return new JSONObject(new Result(0, "缺少必填参数")).toString();
         }
-
+        if(musicType!=null && musicType.equals("qq")){
+            //返回qq音乐信息
+            return getMusicUrl(musicId);
+        }
         //获取网易黑胶vip版权音乐
         Map<String,Object> cloudData=new HashMap<>();
         cloudData.put("ids",musicId.split(","));

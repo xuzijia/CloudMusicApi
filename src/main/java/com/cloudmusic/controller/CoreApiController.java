@@ -48,7 +48,7 @@ public class CoreApiController {
             data.put("w",keywords);
             data.put("remoteplace","txt.yqq.center");
             data.put("cr","1");
-            data.put("p",offset.toString());
+            data.put("p",String.valueOf(offset/limit+1));
             data.put("n", limit.toString());
             String result = CreateQQWebRequest.createWebGetRequest(QQMusicApiUrl.SearchUrl,data);
             return result;
@@ -67,7 +67,7 @@ public class CoreApiController {
         if(musicType!=null && "kugou".equals(musicType)){
             Map<String,String> data=new HashMap<>();
             data.put("keyword",keywords);
-            data.put("page",offset.toString());
+            data.put("page",String.valueOf(offset/limit+1));
             data.put("pagesize", limit.toString());
             data.put("filter","2");
             String result = CreateKuGouWebRequest.createWebGetRequest(KuGouMusicApiUrl.searchUrl, data);
