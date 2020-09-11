@@ -12,21 +12,23 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import sun.misc.BASE64Decoder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * @author simple
- * @description 当网易云歌曲没有版权 自动切换到qq音乐源
+ * @description qq音乐相关接口
  * @date 2019/1/17 10:03
  */
 @RequestMapping("/qq")
 @RestController
-public class SwitchMusicController {
+public class QQMusicController {
 
     @Value("${application.accountInfo.token}")
     private String token;
@@ -106,6 +108,81 @@ public class SwitchMusicController {
         }
         return resultData;
     }
+
+
+    /**
+     * 获取qq音乐歌词
+     * @param musicId
+     * @return
+     * @throws IOException
+     */
+    @RequestMapping("/getLyric")
+    public String getLyric(String musicId) throws IOException {
+        if(musicId==null){
+            return new JSONObject(new Result(0, "缺少必填参数")).toString();
+        }
+        Map<String,String> data=new HashMap<>();
+        data.put("songmid",musicId);
+        String result = CreateQQWebRequest.createWebGetRequest(QQMusicApiUrl.getLyricUrl, data);
+        JSONObject jsonObject=new JSONObject(result);
+        if(jsonObject.getInt("code")==0){
+            String lyric = jsonObject.getString("lyric");
+            BASE64Decoder decoder = new BASE64Decoder();
+            byte[] bytes = decoder.decodeBuffer(lyric);
+            jsonObject.put("decodeLyric",new String(bytes));
+        }
+        return jsonObject.toString();
+    }
+
+    /**
+     * 获取音乐相关信息
+     * @param musicId
+     * @return
+     */
+    @RequestMapping("/getSongInfo")
+    public String getSongInfo(String musicId) throws IOException {
+        if(musicId==null){
+            return new JSONObject(new Result(0, "缺少必填参数")).toString();
+        }
+        String data=String.format(QQMusicApiUrl.musicInfoRequestParamData,musicId,"");
+        String sign = ScriptEngineUtil.getSecuritySign(data);
+        String url=QQMusicApiUrl.MusicUrlApi+"?data="+ URLEncoder.encode(data,"UTF-8")+"&sign="+sign;
+        String result = CreateQQWebRequest.createWebGetRequest(url, new HashMap<>());
+        return result;
+    }
+    /**
+     * 获取mv相关信息
+     * @param musicId
+     * @return
+     */
+    @RequestMapping("/getMvInfo")
+    public String getMvInfo(String musicId) throws IOException {
+        if(musicId==null){
+            return new JSONObject(new Result(0, "缺少必填参数")).toString();
+        }
+        String data=String.format(QQMusicApiUrl.mvInfoRequestParamData,musicId);
+        String sign = ScriptEngineUtil.getSecuritySign(data);
+        String url=QQMusicApiUrl.MusicUrlApi+"?data="+ URLEncoder.encode(data,"UTF-8")+"&sign="+sign;
+        String result = CreateQQWebRequest.createWebGetRequest(url, new HashMap<>());
+        return result;
+    }
+
+    /**
+     * 获取mv播放链接
+     * @param vid
+     * @return
+     */
+    @RequestMapping("/getMvUrl")
+    public String getMvUrl(String vid) throws IOException {
+        if(vid==null){
+            return new JSONObject(new Result(0, "缺少必填参数")).toString();
+        }
+        String data=String.format(QQMusicApiUrl.mvUrlRequestParamData,vid);
+        String result = CreateQQWebRequest.createWebPostRequest(QQMusicApiUrl.MusicUrlApi,data);
+        return result;
+    }
+
+
 
 
 }

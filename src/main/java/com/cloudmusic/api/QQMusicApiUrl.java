@@ -47,10 +47,18 @@ public class QQMusicApiUrl {
 
     //获取音乐源地址请求参数模板
     public static final String MusicRequestParamData="{\"req\":{\"module\":\"CDN.SrfCdnDispatchServer\",\"method\":\"GetCdnDispatch\",\"param\":{\"guid\":\"7403626864\",\"calltype\":0,\"userip\":\"\"}},\"req_0\":{\"module\":\"vkey.GetVkeyServer\",\"method\":\"CgiGetVkey\",\"param\":{\"guid\":\"7403626864\",\"songmid\":[\"%s\"],\"songtype\":[0],\"uin\":\"2295443695\",\"loginflag\":1,\"platform\":\"20\"}},\"comm\":{\"uin\":2295443695,\"format\":\"json\",\"ct\":24,\"cv\":0}}";
-    //获取音乐源地址
+    //获取音乐详细信息 请求参数模板
+    public static final String musicInfoRequestParamData="{\"comm\":{\"ct\":24,\"cv\":0},\"songinfo\":{\"method\":\"get_song_detail_yqq\",\"param\":{\"song_type\":0,\"song_mid\":\"%s\",\"song_id\":\"%s\"},\"module\":\"music.pf_song_detail_svr\"}}";
+    //获取mv详细信息 请求参数模板
+    public static final String mvInfoRequestParamData="{\"comm\":{\"ct\":24,\"cv\":0},\"mv\":{\"module\":\"MvService.MvInfoProServer\",\"method\":\"GetMvBySongid\",\"param\":{\"mids\":[\"%s\"]}}}";
+    //获取mv播放地址 请求参数模板
+    public static final String mvUrlRequestParamData="{\"getMvUrl\":{\"module\":\"gosrf.Stream.MvUrlProxy\",\"method\":\"GetMvUrls\",\"param\":{\"vids\":[\"%s\"],\"request_typet\":10001,\"addrtype\":3}},\"comm\":{\"ct\":24,\"cv\":4747474,\"g_tk\":5381,\"uin\":0,\"format\":\"json\",\"platform\":\"yqq\"}}: ";
+    //获取音乐信息
     public static final String MusicUrlApi="https://u.y.qq.com/cgi-bin/musics.fcg";
     //音乐播放地址前缀
     public static final String urlPrefixStr="http://ws.stream.qqmusic.qq.com/";
     //搜索接口
     public static final String searchUrl="https://c.y.qq.com/soso/fcgi-bin/client_search_cp";
+    //获取歌词
+    public static final String getLyricUrl="https://c.y.qq.com/lyric/fcgi-bin/fcg_query_lyric_new.fcg?g_tk=753738303";
 }

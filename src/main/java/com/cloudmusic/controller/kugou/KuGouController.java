@@ -54,15 +54,29 @@ public class KuGouController {
         String result = CreateKuGouWebRequest.createWebGetRequest(songPlayerUrl, new HashMap<>());
         return result;
     }
+    /**
+     * 获取歌曲信息
+     * @param musicHash 歌曲hash
+     * @return
+     */
+    @RequestMapping("/getSongInfo")
+    public String getSongInfo(String musicHash){
+        String songPlayerUrl = KuGouMusicApiUrl.songInfoUrl;
+        Map<String, String> data = new HashMap<>();
+        data.put("hsah",musicHash);
+        data.put("cmd","playInfo");
+        String result = CreateKuGouWebRequest.createWebGetRequest(songPlayerUrl, data);
+        return result;
+    }
 
     /**
-     * 获取mv播放地址 todo 403错误
+     * 获取mv播放地址
      * @param mvHash 歌曲mv hash
      * @return
      */
     @RequestMapping("/getMvDetail")
     public String getMvDetail(String mvHash){
-        String md5 = DigestUtils.md5Hex(mvHash.toUpperCase()+"kgcloud");
+        String md5 = DigestUtils.md5Hex(mvHash.toUpperCase()+"kugoumvcloud");
         String songPlayerUrl = KuGouMusicApiUrl.getMvUrl;
         songPlayerUrl=songPlayerUrl.replace("{hash}",mvHash.toUpperCase()).replace("{key}",md5);
         String result = CreateKuGouWebRequest.createWebGetRequest(songPlayerUrl, new HashMap<>());

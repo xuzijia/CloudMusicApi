@@ -6,6 +6,8 @@ import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
+import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -27,6 +29,23 @@ public class CreateQQWebRequest {
         try {
             Document post = Jsoup.connect(url).referrer("https://y.qq.com/").
                     data(data).ignoreContentType(true).get();
+            return post.text();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new JSONObject(new Result(500, "服务器出错")).toString();
+        }
+    }
+    /**
+     * 发送Post请求
+     *
+     * @param url  api接口地址
+     * @param data 请求参数json字符串
+     * @return 如果成功返回json结果数据
+     */
+    public static String createWebPostRequest(String url, String  data) {
+        try {
+
+            Document post = Jsoup.connect(url).requestBody(URLEncoder.encode(data,"UTF-8")).referrer("https://y.qq.com/").post();
             return post.text();
         } catch (Exception e) {
             e.printStackTrace();

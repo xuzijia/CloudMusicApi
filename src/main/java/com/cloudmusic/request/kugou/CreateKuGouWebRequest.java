@@ -24,7 +24,7 @@ public class CreateKuGouWebRequest {
     public static String createWebGetRequest(String url, Map<String, String> data) {
         try {
             Document post = Jsoup.connect(url).
-                    data(data).ignoreContentType(true).get();
+                    data(data).get();
             String result = post.text();
             return result;
         } catch (Exception e) {

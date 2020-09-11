@@ -2,6 +2,7 @@ package com.cloudmusic.controller.migu;
 
 import com.cloudmusic.api.KuGouMusicApiUrl;
 import com.cloudmusic.api.MiGuMusicApiUrl;
+import com.cloudmusic.export.ExcelUtils;
 import com.cloudmusic.request.kugou.CreateKuGouWebRequest;
 import com.cloudmusic.request.migu.CreateMiGuWebRequest;
 import com.cloudmusic.result.Result;
@@ -10,7 +11,9 @@ import org.json.JSONObject;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.spring.web.json.Json;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,7 +34,7 @@ public class MiGuController {
      * @return
      */
     @RequestMapping("/search")
-    public String search(String keyword, @RequestParam(name = "page",defaultValue = "1") Integer page, @RequestParam(name = "pagesize",defaultValue = "20")Integer pagesize, @RequestParam(name = "type",defaultValue = "2")Integer type){
+    public String search(String keyword, @RequestParam(name = "page",defaultValue = "1") Integer page, @RequestParam(name = "pagesize",defaultValue = "20")Integer pagesize, @RequestParam(name = "type",defaultValue = "2")Integer type) throws IOException {
         if(keyword==null){
             return new JSONObject(new Result(0, "缺少必填参数")).toString();
         }
@@ -41,6 +44,9 @@ public class MiGuController {
         data.put("rows",pagesize.toString());
         data.put("type",type.toString());
         String result = CreateMiGuWebRequest.createWebGetRequest(MiGuMusicApiUrl.searchApi, data);
+        //生成excel
+        JSONObject jsonObject = new JSONObject(result);
+        ExcelUtils.genMiguData(jsonObject.getJSONArray("musics"));
         return result;
     }
 
