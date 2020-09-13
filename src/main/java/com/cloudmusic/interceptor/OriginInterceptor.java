@@ -10,8 +10,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author simple
@@ -30,12 +29,12 @@ public class OriginInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-
-        //CloudMusicUtil.loginVipAccount(username,password,response,request);
-
-        response.setHeader("Access-Control-Allow-Origin", "http://10.107.0.20");
-        //response.setHeader("Access-Control-Allow-Origin", "http://popps.top:7003");
-        response.setHeader("Access-Control-Allow-Credentials", "true");
-        return true;
+            String originHeader=request.getHeader("Origin");
+            response.setHeader("Access-Control-Allow-Origin", originHeader);
+            response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
+            response.setHeader("Access-Control-Max-Age", "3600");
+            response.setHeader("Access-Control-Allow-Headers", "content-type, x-requested-with");
+            response.setHeader("Access-Control-Allow-Credentials", "true");
+            return true;
     }
 }

@@ -23,7 +23,7 @@ public class CreateKuGouWebRequest {
      */
     public static String createWebGetRequest(String url, Map<String, String> data) {
         try {
-            Document post = Jsoup.connect(url).
+            Document post = Jsoup.connect(url).referrer("https://wwwapi.kugou.com").
                     data(data).get();
             String result = post.text();
             return result;

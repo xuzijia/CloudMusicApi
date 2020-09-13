@@ -16,6 +16,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -35,7 +36,7 @@ public class CoreApiController {
     private String token;
 
     @RequestMapping("/search")
-    public String getSearch(String keywords,Integer limit,Integer offset,String type,String musicType,HttpServletRequest request){
+    public String getSearch(String keywords, @RequestParam(defaultValue = "20") Integer limit, @RequestParam(defaultValue = "0") Integer offset, String type, String musicType, HttpServletRequest request){
         if (keywords == null || keywords.trim().equals("")) {
             return new JSONObject(new Result(0, "缺少必填参数")).toString();
         }

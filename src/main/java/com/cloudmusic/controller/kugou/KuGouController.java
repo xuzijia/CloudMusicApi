@@ -64,7 +64,7 @@ public class KuGouController {
         String songPlayerUrl = KuGouMusicApiUrl.songInfoUrl;
         Map<String, String> data = new HashMap<>();
         data.put("hsah",musicHash);
-        data.put("cmd","playInfo");
+        data.put("r","play/getdata");
         String result = CreateKuGouWebRequest.createWebGetRequest(songPlayerUrl, data);
         return result;
     }
@@ -80,6 +80,16 @@ public class KuGouController {
         String songPlayerUrl = KuGouMusicApiUrl.getMvUrl;
         songPlayerUrl=songPlayerUrl.replace("{hash}",mvHash.toUpperCase()).replace("{key}",md5);
         String result = CreateKuGouWebRequest.createWebGetRequest(songPlayerUrl, new HashMap<>());
+        return result;
+    }
+
+    @RequestMapping("/getLyric")
+    public String getLyric(String musicHash){
+        Map<String, String> data = new HashMap<>();
+        data.put("keyword","123");
+        data.put("hash",musicHash);
+        data.put("timelength","250");
+        String result = CreateKuGouWebRequest.createWebGetRequest(KuGouMusicApiUrl.getLyric, data);
         return result;
     }
 
