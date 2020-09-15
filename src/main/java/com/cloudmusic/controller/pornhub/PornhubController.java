@@ -14,11 +14,16 @@ import org.springframework.web.bind.annotation.RestController;
 public class PornhubController {
 
     @RequestMapping("getPornhubUrl")
-    public Object getPornhubUrl(String url) throws Exception {
+    public Object getPornhubUrl(String url)  {
         if(url==null){
             return new JSONObject(new Result(0, "缺少必填参数")).toString();
         }
-        JSONObject downloadData = PornhubDownloadUtils.getDownloadData(url);
+        JSONObject downloadData =new JSONObject();
+        try {
+            downloadData = PornhubDownloadUtils.getDownloadData(url);
+        }catch (Exception e){
+            downloadData.put("message","请开启vpn访问改接口。");
+        }
         return downloadData.toString();
     }
 }

@@ -45,8 +45,8 @@ public class MiGuController {
         data.put("type",type.toString());
         String result = CreateMiGuWebRequest.createWebGetRequest(MiGuMusicApiUrl.searchApi, data);
         //生成excel
-        JSONObject jsonObject = new JSONObject(result);
-        ExcelUtils.genMiguData(jsonObject.getJSONArray("musics"));
+        //JSONObject jsonObject = new JSONObject(result);
+        //ExcelUtils.genMiguData(jsonObject.getJSONArray("musics"));
         return result;
     }
 
