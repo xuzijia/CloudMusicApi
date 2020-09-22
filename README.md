@@ -13,9 +13,9 @@
 [网易云加密算法](https://www.jianshu.com/p/07ebbb142c73)
 
 ## Vue-Music移动端webApp
-Github传送门： [https://github.com/xuzijia/vue-music](https://github.com/xuzijia/vue-music)
+Github传送门： [https://github.com/xuzijia/ChangTing](https://github.com/xuzijia/ChangTing)
 
-线上项目演示： [http://91cloud.top](http://91cloud.top)
+线上项目演示： [http://popps.top:7003](http://popps.top:7003)
 
 ## 接口文档
 [接口文档(编写中)](https://github.com/xuzijia/CloudMusicApi)
