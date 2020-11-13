@@ -11,6 +11,7 @@ public class CloudMusicApiUrl {
 
     //手机号登陆API
     public static final String cellPhoneLoginUrl = DOMAIN + "/weapi/login/cellphone";
+    //public static final String cellPhoneLoginUrl ="http://localhost:3000/login/cellphone?phone=13049257683&password=music123.";
     //邮箱登陆API
     public static final String emailLoginUrl = DOMAIN + "/weapi/login?email=xxx@163.com&password=yyy";
     //刷新登陆状态

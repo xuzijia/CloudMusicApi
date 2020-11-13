@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
 @Service
 public class CloudCommentsServiceImpl implements CloudCommentsService {
 
@@ -17,6 +16,11 @@ public class CloudCommentsServiceImpl implements CloudCommentsService {
     @Override
     public void saveAll(List<CloudCommentsPo> data){
         cloudCommentsDao.saveAll(data);
+    }
+
+    @Override
+    public List<CloudCommentsPo> findList() {
+        return cloudCommentsDao.findList();
     }
 
 }

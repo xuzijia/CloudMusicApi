@@ -1,0 +1,1 @@
+{"getMVInfo": {"module": "video.VideoDataServer", "method": "get_video_info_batch", "param": {"vidlist": ["%s"], "required": ["vid", "sid", "gmid", "type", "name", "cover_pic", "video_switch", "msg"], "from": "h5.mvplay"}}, "getMVUrl": {"module": "gosrf.Stream.MvUrlProxy", "method": "GetMvUrls", "param": {"vids": ["%s"], "from": "h5.mvplay"}, "request_typet": 10001}}

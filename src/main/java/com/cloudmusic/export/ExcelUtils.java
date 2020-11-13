@@ -8,11 +8,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class ExcelUtils {
-    public static void genMiguData(JSONArray jsonArray) throws IOException {
+    public static void genMiguData(JSONArray jsonArray, String keyword) throws IOException {
         //1.创建一个工作薄
         XSSFWorkbook xssfWorkbook=new XSSFWorkbook();
         //2.创建工作表
-        XSSFSheet sheet = xssfWorkbook.createSheet("周杰伦歌曲大全");
+        XSSFSheet sheet = xssfWorkbook.createSheet(keyword+"相关歌曲汇集");
         //单元格样式
         XSSFCellStyle cellStyle = xssfWorkbook.createCellStyle();
         cellStyle.setFillForegroundColor(IndexedColors.PINK.getIndex());
@@ -25,7 +25,6 @@ public class ExcelUtils {
 
         //3.创建行
         XSSFRow row = sheet.createRow(0);
-
         XSSFCell cell = row.createCell(0);
         cell.setCellValue("歌名");
         cell.setCellStyle(cellStyle);
@@ -54,8 +53,8 @@ public class ExcelUtils {
             row1.createCell(3).setCellValue(jsonArray.getJSONObject(i).getString("cover"));
             row1.createCell(4).setCellValue(jsonArray.getJSONObject(i).getString("mp3"));
         }
-
-        FileOutputStream fileOutputStream=new FileOutputStream("e:/周杰伦歌曲汇集.xls");
+        String fileName=keyword+"相关歌曲汇集";
+        FileOutputStream fileOutputStream=new FileOutputStream("e:/"+fileName+".xls");
         xssfWorkbook.write(fileOutputStream);
         fileOutputStream.flush();
         fileOutputStream.close();

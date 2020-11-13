@@ -8,6 +8,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 
+/**
+ * 利用JavaScript解析器 获取qq音乐接口签名
+ */
 public class ScriptEngineUtil {
     public static String getSecuritySign(String data) throws IOException {
 

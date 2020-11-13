@@ -52,7 +52,7 @@ public class QQMusicApiUrl {
     //获取mv详细信息 请求参数模板
     public static final String mvInfoRequestParamData="{\"comm\":{\"ct\":24,\"cv\":0},\"mv\":{\"module\":\"MvService.MvInfoProServer\",\"method\":\"GetMvBySongid\",\"param\":{\"mids\":[\"%s\"]}}}";
     //获取mv播放地址 请求参数模板
-    public static final String mvUrlRequestParamData="{\"getMvUrl\":{\"module\":\"gosrf.Stream.MvUrlProxy\",\"method\":\"GetMvUrls\",\"param\":{\"vids\":[\"%s\"],\"request_typet\":10001,\"addrtype\":3}},\"comm\":{\"ct\":24,\"cv\":4747474,\"g_tk\":5381,\"uin\":0,\"format\":\"json\",\"platform\":\"yqq\"}}: ";
+    public static final String mvUrlRequestParamData="{\"getMVInfo\": {\"module\": \"video.VideoDataServer\", \"method\": \"get_video_info_batch\", \"param\": {\"vidlist\": [\"%s\"], \"required\": [\"vid\", \"sid\", \"gmid\", \"type\", \"name\", \"cover_pic\", \"video_switch\", \"msg\"], \"from\": \"h5.mvplay\"}}, \"getMVUrl\": {\"module\": \"gosrf.Stream.MvUrlProxy\", \"method\": \"GetMvUrls\", \"param\": {\"vids\": [\"%s\"], \"from\": \"h5.mvplay\"}, \"request_typet\": 10001}}";
     //获取音乐信息
     public static final String MusicUrlApi="https://u.y.qq.com/cgi-bin/musics.fcg";
     //音乐播放地址前缀
