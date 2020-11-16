@@ -149,11 +149,6 @@ public class CreateWebRequest {
             Map<String, String> cookies = res.cookies();
             //设置cookie
             String token = cookies.get("MUSIC_U");
-            System.out.println(cookies.get("MUSIC_U"));
-            Cookie MUSIC_U=new Cookie("MUSIC_U",cookies.get("MUSIC_U"));
-
-            response.addCookie(MUSIC_U);
-            MUSIC_U.setPath("/api");
             Map<String,Object> result=new HashMap<>();
             if(token!=null&&!"".equals(token)){
                 result.put("code",200);
