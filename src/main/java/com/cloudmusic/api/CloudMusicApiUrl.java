@@ -10,8 +10,8 @@ public class CloudMusicApiUrl {
     public static final String DOMAIN = "http://music.163.com";
 
     //手机号登陆API
-    public static final String cellPhoneLoginUrl = DOMAIN + "/weapi/login/cellphone";
-    //public static final String cellPhoneLoginUrl ="http://localhost:3000/login/cellphone?phone=13049257683&password=music123.";
+    //public static final String cellPhoneLoginUrl = DOMAIN + "/weapi/login/cellphone";
+    public static final String cellPhoneLoginUrl ="http://popps.top:7003/node-api/login/cellphone";
     //邮箱登陆API
     public static final String emailLoginUrl = DOMAIN + "/weapi/login?email=xxx@163.com&password=yyy";
     //刷新登陆状态

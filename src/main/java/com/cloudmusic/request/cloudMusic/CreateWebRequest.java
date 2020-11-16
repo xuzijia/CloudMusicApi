@@ -90,22 +90,61 @@ public class CreateWebRequest {
      * @param response
      * @return 如果成功返回json结果数据
      */
-    public static String createLoginRequest(String url, Map<String, Object> data, Map<String,String> cookie, HttpServletResponse response) {
+//    public static String createLoginRequest(String url, Map<String, Object> data, Map<String,String> cookie, HttpServletResponse response) {
+//        try {
+//            //得到加密参数
+//            Map<String, String> arithmeticParam = CloudMusicUtil.arithmetic(data);
+//            //发起请求
+//            Connection.Response res = Jsoup.connect(url).
+//                    userAgent(randomUserAgent()).
+//                    data(arithmeticParam).cookies(cookie).
+//                    //header请求头
+//                            header("Accept", "*/*").
+//                            header("Accept-Language", "zh-CN,zh;q=0.8,gl;q=0.6,zh-TW;q=0.4").
+//                            header("Connection", "keep-alive").
+//                            header("Content-Type", "application/x-www-form-urlencoded").
+//                            header("Referer", "http://music.163.com").
+//                            header("Host", "music.163.com").
+//                            ignoreContentType(true).method(Connection.Method.POST).execute();
+//            Map<String, String> cookies = res.cookies();
+//            //设置cookie
+//            String token = cookies.get("MUSIC_U");
+//            System.out.println(cookies.get("MUSIC_U"));
+//            Cookie MUSIC_U=new Cookie("MUSIC_U",cookies.get("MUSIC_U"));
+//            Cookie __csrf=new Cookie("__csrf",cookies.get("__csrf"));
+//            Cookie appver=new Cookie("__csrf",cookies.get("1.5.9"));
+//            Cookie os=new Cookie("__csrf",cookies.get("osx"));
+//            Cookie channel=new Cookie("__csrf",cookies.get("netease"));
+//            Cookie osver=new Cookie("__csrf",cookies.get("%E7%89%88%E6%9C%AC%2010.13.2%EF%BC%88%E7%89%88%E5%8F%B7%2017C88%EF%BC%89"));
+//            response.addCookie(MUSIC_U);
+//            response.addCookie(__csrf);
+//            response.addCookie(appver);
+//            response.addCookie(os);
+//            response.addCookie(channel);
+//            response.addCookie(osver);
+//            response.addCookie(__csrf);
+//            Map<String,Object> result=new HashMap<>();
+//            if(token!=null&&!"".equals(token)){
+//                result.put("code",200);
+//                result.put("token",token);
+//            }else{
+//                result.put("code",500);
+//                result.put("msg","获取不到token,登录失败");
+//            }
+//            //返回结果数据
+////            return new JSONObject(result).toString();
+//            return res.body();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return new JSONObject(new Result(500, "找不到资源")).toString();
+//        }
+//    }
+    public static String createLoginRequest(String url, Map<String, String> data, HttpServletResponse response) {
         try {
-            //得到加密参数
-            Map<String, String> arithmeticParam = CloudMusicUtil.arithmetic(data);
             //发起请求
             Connection.Response res = Jsoup.connect(url).
                     userAgent(randomUserAgent()).
-                    data(arithmeticParam).cookies(cookie).
-                    //header请求头
-                            header("Accept", "*/*").
-                            header("Accept-Language", "zh-CN,zh;q=0.8,gl;q=0.6,zh-TW;q=0.4").
-                            header("Connection", "keep-alive").
-                            header("Content-Type", "application/x-www-form-urlencoded").
-                            header("Referer", "http://music.163.com").
-                            header("Host", "music.163.com").
-                            ignoreContentType(true).method(Connection.Method.POST).execute();
+                    data(data).ignoreContentType(true).method(Connection.Method.GET).execute();
             Map<String, String> cookies = res.cookies();
             //设置cookie
             String token = cookies.get("MUSIC_U");

@@ -136,12 +136,11 @@ public class CloudMusicUtil {
 
         if(!flag){
             //login vip account
-            password = CloudMusicUtil.md5(password);
-            Map<String, Object> data = new HashMap<>();
+            Map<String, String> data = new HashMap<>();
             data.put("phone", username);
             data.put("password", password);
             data.put("rememberLogin", "true");
-            CreateWebRequest.createLoginRequest(CloudMusicApiUrl.cellPhoneLoginUrl, data, new HashMap<>(), response);
+            CreateWebRequest.createLoginRequest(CloudMusicApiUrl.cellPhoneLoginUrl, data, response);
         }
     }
 
