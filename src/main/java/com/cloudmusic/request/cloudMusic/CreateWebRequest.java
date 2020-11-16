@@ -152,18 +152,8 @@ public class CreateWebRequest {
             System.out.println(cookies.get("MUSIC_U"));
             Cookie MUSIC_U=new Cookie("MUSIC_U",cookies.get("MUSIC_U"));
 
-            Cookie __csrf=new Cookie("__csrf",cookies.get("__csrf"));
-            Cookie appver=new Cookie("__csrf",cookies.get("1.5.9"));
-            Cookie os=new Cookie("__csrf",cookies.get("osx"));
-            Cookie channel=new Cookie("__csrf",cookies.get("netease"));
-            Cookie osver=new Cookie("__csrf",cookies.get("%E7%89%88%E6%9C%AC%2010.13.2%EF%BC%88%E7%89%88%E5%8F%B7%2017C88%EF%BC%89"));
             response.addCookie(MUSIC_U);
-            response.addCookie(__csrf);
-            response.addCookie(appver);
-            response.addCookie(os);
-            response.addCookie(channel);
-            response.addCookie(osver);
-            response.addCookie(__csrf);
+            MUSIC_U.setPath("/api");
             Map<String,Object> result=new HashMap<>();
             if(token!=null&&!"".equals(token)){
                 result.put("code",200);
