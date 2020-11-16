@@ -150,6 +150,7 @@ public class CreateWebRequest {
             String token = cookies.get("MUSIC_U");
             System.out.println(cookies.get("MUSIC_U"));
             Cookie MUSIC_U=new Cookie("MUSIC_U",cookies.get("MUSIC_U"));
+            MUSIC_U.setDomain("popps.top");
             Cookie __csrf=new Cookie("__csrf",cookies.get("__csrf"));
             Cookie appver=new Cookie("__csrf",cookies.get("1.5.9"));
             Cookie os=new Cookie("__csrf",cookies.get("osx"));
