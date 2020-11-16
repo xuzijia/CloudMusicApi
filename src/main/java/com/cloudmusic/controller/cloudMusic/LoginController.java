@@ -3,7 +3,6 @@ package com.cloudmusic.controller.cloudMusic;
 import com.cloudmusic.api.CloudMusicApiUrl;
 import com.cloudmusic.request.cloudMusic.CreateWebRequest;
 import com.cloudmusic.result.Result;
-import com.cloudmusic.utils.CloudMusicUtil;
 import org.json.JSONObject;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,14 +30,14 @@ public class LoginController {
      * @throws Exception
      */
     @RequestMapping("/login_phone")
-    public String loginByPhone(String phone, String password, HttpServletResponse response) {
+    public String loginByPhone(String phone, String password, HttpServletResponse response,HttpServletRequest request) {
         //md5加密
         //password = CloudMusicUtil.md5(password);
         Map<String, String> data = new HashMap<>();
         data.put("phone", phone);
         data.put("password", password);
         data.put("rememberLogin", "true");
-        return CreateWebRequest.createLoginRequest(CloudMusicApiUrl.cellPhoneLoginUrl, data, response);
+        return CreateWebRequest.createLoginRequest(CloudMusicApiUrl.cellPhoneLoginUrl, data, response,request);
     }
     /**
      * 邮箱登陆接口(建议用户使用post请求)
@@ -49,14 +48,14 @@ public class LoginController {
      * @throws Exception
      */
     @RequestMapping("/login_email")
-    public String loginByEmail(String email, String password, HttpServletResponse response){
+    public String loginByEmail(String email, String password, HttpServletResponse response,HttpServletRequest request){
         //md5加密
         //password = CloudMusicUtil.md5(password);
         Map<String, String> data = new HashMap<>();
         data.put("username", email);
         data.put("password", password);
         data.put("rememberLogin", "true");
-        return CreateWebRequest.createLoginRequest(CloudMusicApiUrl.emailLoginUrl, data, response);
+        return CreateWebRequest.createLoginRequest(CloudMusicApiUrl.emailLoginUrl, data, response, request);
     }
 
     /**

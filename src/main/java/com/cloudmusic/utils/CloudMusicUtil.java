@@ -140,7 +140,7 @@ public class CloudMusicUtil {
             data.put("phone", username);
             data.put("password", password);
             data.put("rememberLogin", "true");
-            CreateWebRequest.createLoginRequest(CloudMusicApiUrl.cellPhoneLoginUrl, data, response);
+            CreateWebRequest.createLoginRequest(CloudMusicApiUrl.cellPhoneLoginUrl, data, response, request);
         }
     }
 

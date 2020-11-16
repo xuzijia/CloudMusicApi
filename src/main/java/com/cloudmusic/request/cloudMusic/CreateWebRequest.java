@@ -88,6 +88,7 @@ public class CreateWebRequest {
      * @param url api接口地址
      * @param data 请求参数
      * @param response
+     * @param request
      * @return 如果成功返回json结果数据
      */
 //    public static String createLoginRequest(String url, Map<String, Object> data, Map<String,String> cookie, HttpServletResponse response) {
@@ -139,7 +140,7 @@ public class CreateWebRequest {
 //            return new JSONObject(new Result(500, "找不到资源")).toString();
 //        }
 //    }
-    public static String createLoginRequest(String url, Map<String, String> data, HttpServletResponse response) {
+    public static String createLoginRequest(String url, Map<String, String> data, HttpServletResponse response, HttpServletRequest request) {
         try {
             //发起请求
             Connection.Response res = Jsoup.connect(url).
@@ -150,7 +151,11 @@ public class CreateWebRequest {
             String token = cookies.get("MUSIC_U");
             System.out.println(cookies.get("MUSIC_U"));
             Cookie MUSIC_U=new Cookie("MUSIC_U",cookies.get("MUSIC_U"));
-            MUSIC_U.setDomain("popps.top");
+            //set domain
+            MUSIC_U.setPath("/");
+            String serverName = request.getServerName();
+            MUSIC_U.setDomain(serverName);
+
             Cookie __csrf=new Cookie("__csrf",cookies.get("__csrf"));
             Cookie appver=new Cookie("__csrf",cookies.get("1.5.9"));
             Cookie os=new Cookie("__csrf",cookies.get("osx"));
