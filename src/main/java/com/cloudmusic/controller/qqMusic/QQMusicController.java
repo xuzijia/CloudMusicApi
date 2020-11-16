@@ -177,8 +177,8 @@ public class QQMusicController {
         if(vid==null){
             return new JSONObject(new Result(0, "缺少必填参数")).toString();
         }
-        String data=String.format(QQMusicApiUrl.mvUrlRequestParamData,vid,vid);
-        String musicUrlApi = QQMusicApiUrl.MusicUrlApi+"?g_tk=1261910435&uin=2295443695&ct=23&cv=0&format=json&callback=qmv_jsonp_2&"+URLEncoder.encode(data,"UTF-8")+"&_=1605248528484&platform=h5";
+        String data=QQMusicApiUrl.mvUrlRequestParamData.replace("{vid}",vid);
+        String musicUrlApi = QQMusicApiUrl.MusicUrlApi+"?data="+data;
         String result = CreateQQWebRequest.createWebGetRequest(musicUrlApi,new HashMap<>());
         return result;
     }

@@ -52,9 +52,9 @@ public class QQMusicApiUrl {
     //获取mv详细信息 请求参数模板
     public static final String mvInfoRequestParamData="{\"comm\":{\"ct\":24,\"cv\":0},\"mv\":{\"module\":\"MvService.MvInfoProServer\",\"method\":\"GetMvBySongid\",\"param\":{\"mids\":[\"%s\"]}}}";
     //获取mv播放地址 请求参数模板
-    public static final String mvUrlRequestParamData="{\"getMVInfo\": {\"module\": \"video.VideoDataServer\", \"method\": \"get_video_info_batch\", \"param\": {\"vidlist\": [\"%s\"], \"required\": [\"vid\", \"sid\", \"gmid\", \"type\", \"name\", \"cover_pic\", \"video_switch\", \"msg\"], \"from\": \"h5.mvplay\"}}, \"getMVUrl\": {\"module\": \"gosrf.Stream.MvUrlProxy\", \"method\": \"GetMvUrls\", \"param\": {\"vids\": [\"%s\"], \"from\": \"h5.mvplay\"}, \"request_typet\": 10001}}";
+    public static final String mvUrlRequestParamData="%7B\"getMVInfo\"%3A%7B\"module\"%3A\"video.VideoDataServer\"%2C\"method\"%3A\"get_video_info_batch\"%2C\"param\"%3A%7B\"vidlist\"%3A%5B\"{vid}\"%5D%2C\"required\"%3A%5B\"vid\"%2C\"sid\"%2C\"gmid\"%2C\"type\"%2C\"name\"%2C\"cover_pic\"%2C\"video_switch\"%2C\"msg\"%5D%2C\"from\"%3A\"h5.mvplay\"%7D%7D%2C\"getMVUrl\"%3A%7B\"module\"%3A\"gosrf.Stream.MvUrlProxy\"%2C\"method\"%3A\"GetMvUrls\"%2C\"param\"%3A%7B\"vids\"%3A%5B\"{vid}\"%5D%2C\"from\"%3A\"h5.mvplay\"%7D%2C\"request_typet\"%3A10001%7D%7D";
     //获取音乐信息
-    public static final String MusicUrlApi="https://u.y.qq.com/cgi-bin/musics.fcg";
+    public static final String MusicUrlApi="https://u.y.qq.com/cgi-bin/musicu.fcg";
     //音乐播放地址前缀
     public static final String urlPrefixStr="http://ws.stream.qqmusic.qq.com/";
     //搜索接口
