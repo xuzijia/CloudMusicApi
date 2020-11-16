@@ -151,10 +151,6 @@ public class CreateWebRequest {
             String token = cookies.get("MUSIC_U");
             System.out.println(cookies.get("MUSIC_U"));
             Cookie MUSIC_U=new Cookie("MUSIC_U",cookies.get("MUSIC_U"));
-            //set domain
-            MUSIC_U.setPath("/");
-            String serverName = request.getServerName();
-            MUSIC_U.setDomain(serverName);
 
             Cookie __csrf=new Cookie("__csrf",cookies.get("__csrf"));
             Cookie appver=new Cookie("__csrf",cookies.get("1.5.9"));
