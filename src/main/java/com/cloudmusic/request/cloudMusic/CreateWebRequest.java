@@ -150,6 +150,8 @@ public class CreateWebRequest {
             //设置cookie
             String token = cookies.get("MUSIC_U");
             Map<String,Object> result=new HashMap<>();
+            Cookie cookie = new Cookie("MUSIC_U",token);
+            response.addCookie(cookie);
             if(token!=null&&!"".equals(token)){
                 result.put("code",200);
                 result.put("token",token);
