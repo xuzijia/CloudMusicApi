@@ -150,8 +150,6 @@ public class CreateWebRequest {
             //设置cookie
             String token = cookies.get("MUSIC_U");
             Map<String,Object> result=new HashMap<>();
-            Cookie cookie = new Cookie("MUSIC_U",token);
-            response.addCookie(cookie);
             if(token!=null&&!"".equals(token)){
                 result.put("code",200);
                 result.put("token",token);
@@ -160,7 +158,6 @@ public class CreateWebRequest {
                 result.put("msg","获取不到token,登录失败");
             }
             //返回结果数据
-//            return new JSONObject(result).toString();
             return res.body();
         } catch (Exception e) {
             e.printStackTrace();
