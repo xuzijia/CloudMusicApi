@@ -123,6 +123,7 @@ public class CoreApiController {
                     String songType=Constant.CLOUD_MUSIC_TYPE;
                     String singerName="";
                     JSONArray singerData = songData.getJSONArray("ar");
+                    String mvId= String.valueOf(songData.getInt("mv"));
                     for(int y=0;y<singerData.length();y++){
                         if(y==singerData.length()-1){
                             singerName=singerName+singerData.getJSONObject(y).getString("name");
@@ -135,7 +136,9 @@ public class CoreApiController {
                     JSONObject lyricData = new JSONObject(CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.SongLyricUrl.replace("{id}", id), new HashMap<>(), new HashMap<>()));
                     String lyric="";
                     if(lyricData.getInt("code")==200){
-                        lyric=lyricData.getJSONObject("lrc").getString("lyric");
+                        if(lyricData.has("lrc")){
+                            lyric=lyricData.getJSONObject("lrc").getString("lyric");
+                        }
                     }
                     //获取歌曲链接
                     //获取网易黑胶vip版权音乐
@@ -150,6 +153,30 @@ public class CoreApiController {
                     Map<String,Object> cloudResult=new HashMap<>();
                     String  songUrl = cloudJsonData.getJSONArray("data").getJSONObject(0).getString("url");
                     //获取mv信息
+                    Map<String,String> mvList=new HashMap<>();
+                    Map<String,Object> mvData=new HashMap<>();
+                    mvData.put("id",mvId);
+                    String webPostRequest1 = CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.mvDetailUrl, mvData, new HashMap<>());
+                    webPostRequest1=webPostRequest1.replaceFirst("artists","fff");
+                    JSONObject mvResultData =new JSONObject(webPostRequest1);
+                    if(mvResultData.getInt("code")==200){
+                        if(mvResultData.has("data") && mvResultData.getJSONObject("data").has("brs")){
+                            JSONObject mvJsonData=mvResultData.getJSONObject("data").getJSONObject("brs");
+                            if(mvJsonData.has("240")){
+                                mvList.put("240",mvJsonData.getString("240"));
+                            }
+                            if(mvJsonData.has("480")){
+                                mvList.put("480",mvJsonData.getString("480"));
+                            }
+                            if(mvJsonData.has("720")){
+                                mvList.put("720",mvJsonData.getString("720"));
+                            }
+                            if(mvJsonData.has("1080")){
+                                mvList.put("1080",mvJsonData.getString("1080"));
+                            }
+                        }
+                    }
+                    songVo.setMvUrl(mvList);
                     songVo.setId(id);
                     songVo.setImgUrl(imgUrl);
                     songVo.setLyric(lyric);
