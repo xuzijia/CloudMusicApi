@@ -23,7 +23,7 @@ public class CreateMiGuWebRequest {
      */
     public static String createWebGetRequest(String url, Map<String, String> data) {
         try {
-            Document post = Jsoup.connect(url).
+            Document post = Jsoup.connect(url).header("Referer","https://m.music.migu.cn").
                     data(data).ignoreContentType(true).get();
             String result = post.text();
             return result;
