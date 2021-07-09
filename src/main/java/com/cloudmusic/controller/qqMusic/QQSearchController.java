@@ -42,7 +42,7 @@ public class QQSearchController {
         }
         Map<String,String> data= new HashMap<>();
         data.put("w",keyword);
-        data.put("remoteplace","txt.yqq.center");
+        data.put("remoteplace","txt.yqq.top");
         data.put("cr","1");
         data.put("p",page.toString());
         data.put("n",size.toString());
