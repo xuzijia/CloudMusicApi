@@ -160,7 +160,7 @@
 
       //搜索mv信息
       $.ajax({
-        url:"/mv/detail",
+        url:"/api/mv/detail",
         data:{"id":$(this).attr("mvid")},
         dataType:"json",
         success:function(res){
@@ -227,7 +227,7 @@
       if(musicType=='cloud'){
         $.ajax(
           {
-            url: "/search",
+            url: "/api/search",
             data: {"keywords":keyword},
             dataType:"json",
             success: function (result) {
