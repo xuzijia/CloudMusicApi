@@ -1,12 +1,15 @@
 package com.cloudmusic.controller.cloudMusic;
 
 import com.cloudmusic.api.CloudMusicApiUrl;
+import com.cloudmusic.api.QQMusicApiUrl;
 import com.cloudmusic.request.cloudMusic.CreateWebRequest;
+import com.cloudmusic.request.qqMusic.CreateQQWebRequest;
 import com.cloudmusic.result.Result;
 import com.cloudmusic.request.cloudMusic.ResultCacheUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -168,7 +171,8 @@ public class MusicController {
     }
 
 
-
+    @Value("${application.accountInfo.token}")
+    private String token;
 
     /**
      * 获取歌曲播放地址(POST请求) 如果code=404 说明歌曲没有版权或者歌曲不存在
@@ -181,11 +185,20 @@ public class MusicController {
         if(ids==null || ids.trim().equals("")){
             return new JSONObject(new Result(0, "缺少必填参数")).toString();
         }
-        br=br==null?320000:br;
-        Map<String,Object> data=new HashMap<>();
-        data.put("ids",ids.split(","));
-        data.put("br",br);
-        return CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.songPlayerUrl,data, CreateWebRequest.getCookie(request));
+        //获取网易黑胶vip版权音乐
+        Map<String, Object> cloudData = new HashMap<>();
+        cloudData.put("ids", ids.split(","));
+        cloudData.put("br", 320000);
+        Map<String, String> cookie = CreateWebRequest.getCookie(request);
+        //设置黑胶vip账号cookie
+        cookie.put("MUSIC_U", token);
+        String cloudMusicData = CreateWebRequest.createWebPostRequest(CloudMusicApiUrl.songPlayerUrl, cloudData, cookie);
+        JSONObject cloudJsonData = new JSONObject(cloudMusicData);
+        Map<String, Object> cloudResult = new HashMap<>();
+        Object url = cloudJsonData.getJSONArray("data").getJSONObject(0).get("url");
+        cloudResult.put("code", 200);
+        cloudResult.put("url", url);
+        return new JSONObject(cloudResult).toString();
     }
 
     /**

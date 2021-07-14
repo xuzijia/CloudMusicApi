@@ -19,6 +19,7 @@ public class DownloadController {
 
     @RequestMapping("/qq/mv")
     public void downloadMv(String url, String name, HttpServletResponse response, HttpServletRequest request) throws IOException {
+        url=url.replace("%888","?").replace("%26","&").replace("%3D","=");
         String userAgent = request.getHeader("User-agent");
         byte[] bytes = userAgent.contains("MSIE") ? name.getBytes() : name.getBytes("UTF-8");
         name = new String(bytes, "ISO-8859-1");

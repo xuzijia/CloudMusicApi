@@ -88,7 +88,6 @@ public class SearchController {
     @RequestMapping("/search/hot")
     public String getSearchHot(){
         Map<String, Object> data = new HashMap<>();
-        data.put("type", 1111);//不知道是啥~
         String url = CloudMusicApiUrl.searchHotUrl;
         String key="/search/hot";
         return resultCacheUtils.createCache(key,url,data,60*60*1);

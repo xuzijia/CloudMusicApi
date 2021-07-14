@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>畅听音乐搜索引擎</title>
+  <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+  <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="http://cdn.jsdelivr.net/npm/xgplayer@1.1.4/browser/index.js" charset="utf-8"></script>
+  <style>
+
+    body {
+    }
+
+    .type {
+      font-size: 17px;
+      margin-top: 10px;
+    }
+
+    .type input {
+      width: 15px;
+      height: 15px;
+    }
+
+    .search-main {
+      padding: 0px 10%;
+      margin-top: 30px;
+      margin-bottom: 30px;
+    }
+
+    .result {
+      padding: 0px 10%;
+    }
+
+    .pagination {
+      float: left;
+      padding-top: 30px;
+    }
+
+    .song-list {
+      padding-top: 10px;
+    }
+
+    .glyphicon {
+      cursor: pointer;
+    }
+
+    .modal-dialog{
+      width: 60%;
+    }
+    .modal-content {
+      width: 100%;
+    }
+
+    #video{
+      /*padding: 10px;*/
+    }
+  </style>
+
+</head>
+
+<body>
+<h1 style="text-align: center">
+  畅听音乐搜索引擎
+</h1>
+
+<div class="search-main">
+  <input type="text" class="form-control" id="keyword"
+         placeholder="搜索歌曲">
+  <div class="type">
+    <label class="radio-inline">
+      <input type="radio" name="musicType" value="cloud" checked> 网易云音乐
+    </label>
+    <label class="radio-inline">
+      <input type="radio" name="musicType" value="qq"> QQ音乐
+    </label>
+    <label class="radio-inline">
+      <input type="radio" name="musicType" value="kugou"> 酷狗音乐
+    </label>
+    <label class="radio-inline">
+      <input type="radio" name="musicType" value="migu"> 咪咕音乐
+    </label>
+  </div>
+  <button type="button" class="btn btn-default" style="margin-top: 15px" id="search"  data-loading-text="搜索中..." autocomplete="off">搜索</button>
+</div>
+
+<!--搜索结果-->
+
+
+<div class="result">
+  <div class="panel panel-success">
+    <div class="panel-heading">
+      <h3 class="panel-title">搜索结果</h3>
+    </div>
+    <div class="panel-body">
+
+      <div class="song-list">
+        <table class="table table-hover">
+          <thead>
+          <tr>
+            <th>歌名</th>
+            <th>专辑</th>
+            <th>歌手</th>
+            <th>操作</th>
+          </tr>
+          </thead>
+          <tbody id="table">
+
+
+          </tbody>
+        </table>
+
+      </div>
+
+
+    </div>
+  </div>
+
+
+
+  <!-- 模态框（Modal） -->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+            &times;
+          </button>
+          <h4 class="modal-title" id="myModalLabel">
+            歌曲MV播放
+          </h4>
+        </div>
+        <div class="modal-body">
+          <div id="video" style="margin: auto"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+          </button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+
+
+  </div>
+</div>
+
+
+
+
+</body>
+<script>
+  let player ;
+  var url="";
+    $(document).on("click",".glyphicon-facetime-video",function () {
+      $("#myModalLabel").text("正在加载MV，请稍等一下下哈~");
+      $('#myModal').modal({
+        backdrop: 'static',
+        keyboard: false
+      })
+
+      //搜索mv信息
+      $.ajax({
+        url:"/mv/detail",
+        data:{"id":$(this).attr("mvid")},
+        dataType:"json",
+        success:function(res){
+          $("#myModalLabel").text(res.data.artistName+"-"+res.data.name+".mp4");
+          $.each(res.data.brs,function(index,value){
+            url=value;
+          })
+
+        //播放mv
+          if(player!=undefined){
+            player.src=url
+          }else{
+            player= new Player({
+              "id": "video",
+              "url": url,
+              "playsinline": true,
+              "whitelist": [
+                ""
+              ],
+              // "poster": "http://p1.music.126.net/T14lMrty1Rz92-yDMYKO4Q==/7762552092970870.jpg",
+              "width": "100%",
+              "height": "auto",
+              "autoplay": true,
+              "playbackRate": [
+                0.5,
+                1,
+                1.5,
+                2
+              ],
+              "x5-video-player-type": "h5",
+              "x5-video-player-fullscreen": "true",
+              "x5-video-orientation": "portraint"
+            });
+          }
+
+        }
+      })
+
+
+
+
+
+  });
+
+
+  //关闭事件
+  $('#myModal').on('hide.bs.modal', function () {
+      //暂停播放
+    player.pause();
+  });
+
+
+  //搜索歌曲
+
+  $("#search").click(function(){
+    let keyword=$("#keyword").val();
+    let musicType=$("input[name='musicType']:checked").val();
+
+    if(keyword==""){
+      alert("请输入搜索的关键词");
+    }else{
+      $("#search").button('loading');
+      //发起搜索请求，根据不同接口发起请求
+      if(musicType=='cloud'){
+        $.ajax(
+          {
+            url: "/search",
+            data: {"keywords":keyword},
+            dataType:"json",
+            success: function (result) {
+              //渲染数据
+              if(result.code==200){
+                var html="";
+                  $.each(result.result.songs,function(index,value){
+                    var singer=value.ar[0].name;
+                    var name=value.name;
+                    var mvid=value.mv;
+                    var alName=value.al.name;
+                    var mvHtml="";
+                    if(mvid){
+                       mvHtml="&nbsp;&nbsp; <span class=\"glyphicon glyphicon-facetime-video\" mvid='"+mvid+"'></span>\n";
+                    }
+                    html+="      <tr>\n" +
+                            "            <td>"+name+"</td>\n" +
+                            "            <td>"+alName+"</td>\n" +
+                            "            <td>"+singer+"</td>\n" +
+                            "            <td>\n" +mvHtml
+                            "            </td>\n" +
+                            "          </tr>"
+
+                  })
+                $("#table").html("");
+                $("#table").html(html);
+                $("#search").button('reset');
+              }
+              // $("#search").button('reset');
+            }
+          }
+        )
+
+      }
+
+
+    }
+
+
+
+
+  })
+
+
+
+</script>
+
+
+</html>

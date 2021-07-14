@@ -2,7 +2,7 @@ application:
   accountInfo:
     username: ######
     password: ######
-    token: ######
+    token: 5ed61a383a11652211bf35298ca8c14cdabddd47b948ec9fd68641f1d7ff1fec33a649814e309366
 server:
   port: 3001
   #redis
@@ -37,3 +37,11 @@ spring:
         max-wait: 10000
     # 连接超时时间（毫秒
     timeout: 5000
+
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    #不缓存,页面编写完成后ctrl+F9，就可以看到页面修改的内容
+    cache: false
+    # 指定模板编码
+    encoding: UTF-8
