@@ -2,18 +2,13 @@ package com.cloudmusic.controller.qqMusic;
 
 import com.cloudmusic.api.CloudMusicApiUrl;
 import com.cloudmusic.api.QQMusicApiUrl;
-import com.cloudmusic.controller.pojo.vo.MvDetilsVo;
-import com.cloudmusic.controller.pojo.vo.MvVo;
 import com.cloudmusic.request.cloudMusic.CreateWebRequest;
 import com.cloudmusic.request.qqMusic.CreateQQWebRequest;
 import com.cloudmusic.result.Result;
 import com.cloudmusic.utils.ScriptEngineUtil;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import sun.misc.BASE64Decoder;
@@ -30,7 +25,6 @@ import java.util.*;
  */
 @RequestMapping("/qq")
 @RestController
-@RefreshScope
 public class QQMusicController {
 
     @Value("${application.accountInfo.token}")
