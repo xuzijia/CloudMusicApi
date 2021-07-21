@@ -10,7 +10,6 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
  * 程序启动类
  */
 @SpringBootApplication
-@EnableDiscoveryClient
 public class ApiApplication {
 
 	public static void main(String[] args) {
