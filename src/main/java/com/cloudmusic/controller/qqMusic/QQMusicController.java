@@ -10,7 +10,9 @@ import com.cloudmusic.result.Result;
 import com.cloudmusic.utils.ScriptEngineUtil;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,6 +30,7 @@ import java.util.*;
  */
 @RequestMapping("/qq")
 @RestController
+@RefreshScope
 public class QQMusicController {
 
     @Value("${application.accountInfo.token}")
@@ -111,6 +114,9 @@ public class QQMusicController {
     }
 
 
+    @Value("${application.testDynamic}")
+    private String testDynamic;
+
     /**
      * 获取qq音乐歌词
      *
@@ -120,6 +126,7 @@ public class QQMusicController {
      */
     @RequestMapping("/getLyric")
     public String getLyric(String musicId) throws IOException {
+        System.out.println(testDynamic);
         if (musicId == null) {
             return new JSONObject(new Result(0, "缺少必填参数")).toString();
         }
@@ -184,59 +191,33 @@ public class QQMusicController {
             if (vid == null) {
                 return new JSONObject(new Result(0, "缺少必填参数")).toString();
             }
-            String data = QQMusicApiUrl.mvUrlRequestParamData.replace("{vid}", vid);
-            String musicUrlApi = QQMusicApiUrl.MusicUrlApi + "?data=" + data;
-            String result = CreateQQWebRequest.createWebGetRequest(musicUrlApi, new HashMap<>());
+            String data = String.format(QQMusicApiUrl.mvUrlRequestParamData, vid);
+            String musicUrlApi = QQMusicApiUrl.MusicUrlApi ;
+
+            String result = CreateQQWebRequest.createWebPostRequest(musicUrlApi,data);
             if (!dataFormat) {
                 return result;
             } else {
                 //数据格式化
                 JSONObject resultJson = new JSONObject(result);
-                MvVo mvVo = new MvVo();
+                List<String> list=new ArrayList<>();
                 if (resultJson.has("code") && resultJson.getInt("code") == 0) {
-                    if(resultJson.getJSONObject("getMVInfo").getJSONObject("data").has(vid)){
-                        JSONObject mvInfoData =resultJson.getJSONObject("getMVInfo").getJSONObject("data").getJSONObject(vid);
-                        mvVo.setCoverPic(mvInfoData.getString("cover_pic"));
-                        mvVo.setId(mvInfoData.getString("vid"));
-                        mvVo.setName(mvInfoData.getString("name"));
-                        mvVo.setSingId(String.valueOf(mvInfoData.getInt("sid")));
-                    }
-                    if(resultJson.getJSONObject("getMVUrl").getJSONObject("data").has(vid)){
-                        if(resultJson.getJSONObject("getMVUrl").getJSONObject("data").getJSONObject(vid).has("mp4")){
-                            JSONArray mvUrlJson = resultJson.getJSONObject("getMVUrl").getJSONObject("data").getJSONObject(vid).getJSONArray("mp4");
-                            if(mvUrlJson!=null){
-                                List<MvDetilsVo> mvDetails= new ArrayList<>();
-                                for (int i=0;i<mvUrlJson.length();i++){
-                                    JSONObject jsonObject = mvUrlJson.getJSONObject(i);
-                                    MvDetilsVo mvDetilsVo = new MvDetilsVo();
-                                    if(jsonObject.getInt("filetype")==10){
-                                        //240p
-                                        mvDetilsVo.setQuality("240p");
-                                    }
-                                    if(jsonObject.getInt("filetype")==20){
-                                        mvDetilsVo.setQuality("480p");
-                                    }
-                                    if(jsonObject.getInt("filetype")==30){
-                                        mvDetilsVo.setQuality("720p");
-                                    }
-                                    if(jsonObject.getInt("filetype")==40){
-                                        mvDetilsVo.setQuality("1080p");
-                                    }
-                                    JSONArray freeflow_url = jsonObject.getJSONArray("freeflow_url");
-                                    if(freeflow_url.length()>0){
-                                        mvDetilsVo.setFileSize(jsonObject.getLong("fileSize"));
-                                        mvDetilsVo.setUrl(freeflow_url.getString(0));
-                                        mvDetails.add(mvDetilsVo);
-                                    }
-
+                    if(resultJson.getJSONObject("getMvUrl").getJSONObject("data").has(vid)){
+                        if(resultJson.getJSONObject("getMvUrl").getJSONObject("data").getJSONObject(vid).has("mp4")){
+                            JSONArray mvUrlJson = resultJson.getJSONObject("getMvUrl").getJSONObject("data").getJSONObject(vid).getJSONArray("mp4");
+                            List<String> urlList=new ArrayList<>();
+                            if(mvUrlJson.length()>=2){
+                                for (int i=1;i<mvUrlJson.length();i++){
+                                    String freeflow_url = mvUrlJson.getJSONObject(i).getJSONArray("freeflow_url").getString(0);
+                                    urlList.add(freeflow_url);
                                 }
-                                mvVo.setMvDetails(mvDetails);
+                                return new JSONObject(new Result(0,"success",urlList)).toString();
                             }
                         }
                     }
 
                 }
-                return new JSONObject(mvVo).toString();
+                return new JSONObject(new Result(0,"没有找到该歌曲的MV信息")).toString();
             }
 
         } catch (Exception e) {

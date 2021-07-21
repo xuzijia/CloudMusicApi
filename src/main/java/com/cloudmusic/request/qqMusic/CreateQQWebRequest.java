@@ -45,7 +45,7 @@ public class CreateQQWebRequest {
     public static String createWebPostRequest(String url, String  data) {
         try {
 
-            Document post = Jsoup.connect(url).requestBody(URLEncoder.encode(data,"UTF-8")).referrer("https://y.qq.com/").post();
+            Document post = Jsoup.connect(url).requestBody(data).referrer("https://y.qq.com/").ignoreContentType(true).post();
             return post.text();
         } catch (Exception e) {
             e.printStackTrace();

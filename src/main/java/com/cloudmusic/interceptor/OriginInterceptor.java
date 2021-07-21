@@ -20,12 +20,6 @@ import java.util.*;
 @Component
 public class OriginInterceptor implements HandlerInterceptor {
 
-    //注入账号密码
-    @Value("${application.accountInfo.username}")
-    private String username;
-    @Value("${application.accountInfo.password}")
-    private String password;
-
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {

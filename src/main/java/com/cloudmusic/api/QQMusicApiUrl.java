@@ -52,7 +52,8 @@ public class QQMusicApiUrl {
     //获取mv详细信息 请求参数模板
     public static final String mvInfoRequestParamData="{\"comm\":{\"ct\":24,\"cv\":0},\"mv\":{\"module\":\"MvService.MvInfoProServer\",\"method\":\"GetMvBySongid\",\"param\":{\"mids\":[\"%s\"]}}}";
     //获取mv播放地址 请求参数模板
-    public static final String mvUrlRequestParamData="%7B\"getMVInfo\"%3A%7B\"module\"%3A\"video.VideoDataServer\"%2C\"method\"%3A\"get_video_info_batch\"%2C\"param\"%3A%7B\"vidlist\"%3A%5B\"{vid}\"%5D%2C\"required\"%3A%5B\"vid\"%2C\"sid\"%2C\"gmid\"%2C\"type\"%2C\"name\"%2C\"cover_pic\"%2C\"video_switch\"%2C\"msg\"%5D%2C\"from\"%3A\"h5.mvplay\"%7D%7D%2C\"getMVUrl\"%3A%7B\"module\"%3A\"gosrf.Stream.MvUrlProxy\"%2C\"method\"%3A\"GetMvUrls\"%2C\"param\"%3A%7B\"vids\"%3A%5B\"{vid}\"%5D%2C\"from\"%3A\"h5.mvplay\"%7D%2C\"request_typet\"%3A10001%7D%7D";
+//    public static final String mvUrlRequestParamData="%7B\"getMVInfo\"%3A%7B\"module\"%3A\"video.VideoDataServer\"%2C\"method\"%3A\"get_video_info_batch\"%2C\"param\"%3A%7B\"vidlist\"%3A%5B\"{vid}\"%5D%2C\"required\"%3A%5B\"vid\"%2C\"sid\"%2C\"gmid\"%2C\"type\"%2C\"name\"%2C\"cover_pic\"%2C\"video_switch\"%2C\"msg\"%5D%2C\"from\"%3A\"h5.mvplay\"%7D%7D%2C\"getMVUrl\"%3A%7B\"module\"%3A\"gosrf.Stream.MvUrlProxy\"%2C\"method\"%3A\"GetMvUrls\"%2C\"param\"%3A%7B\"vids\"%3A%5B\"{vid}\"%5D%2C\"from\"%3A\"h5.mvplay\"%7D%2C\"request_typet\"%3A10001%7D%7D";
+    public static final String mvUrlRequestParamData="{\"getMvUrl\":{\"module\":\"gosrf.Stream.MvUrlProxy\",\"method\":\"GetMvUrls\",\"param\":{\"vids\":[\"%s\"],\"request_typet\":10001,\"addrtype\":3,\"format\":264}},\"comm\":{\"ct\":6,\"cv\":4747474,\"g_tk\":5381,\"uin\":0,\"format\":\"json\",\"platform\":\"yqq\"}}";
     //获取音乐信息
     public static final String MusicUrlApi="https://u.y.qq.com/cgi-bin/musicu.fcg";
     //音乐播放地址前缀

@@ -149,6 +149,8 @@
 
 </body>
 <script>
+  var prefixUrl="/api"
+
   let player ;
   var url="";
     $(document).on("click",".glyphicon-facetime-video",function () {
@@ -159,45 +161,88 @@
       })
 
       //搜索mv信息
-      $.ajax({
-        url:"/api/mv/detail",
-        data:{"id":$(this).attr("mvid")},
-        dataType:"json",
-        success:function(res){
-          $("#myModalLabel").text(res.data.artistName+"-"+res.data.name+".mp4");
-          $.each(res.data.brs,function(index,value){
-            url=value;
-          })
+      if($(this).attr("type")=='cloud'){
+        $.ajax({
+          url:prefixUrl+"/mv/detail",
+          data:{"id":$(this).attr("mvid")},
+          dataType:"json",
+          success:function(res){
+            $("#myModalLabel").text(res.data.artistName+"-"+res.data.name+".mp4");
+            $.each(res.data.brs,function(index,value){
+              url=value;
+            })
 
-        //播放mv
-          if(player!=undefined){
-            player.src=url
-          }else{
-            player= new Player({
-              "id": "video",
-              "url": url,
-              "playsinline": true,
-              "whitelist": [
-                ""
-              ],
-              // "poster": "http://p1.music.126.net/T14lMrty1Rz92-yDMYKO4Q==/7762552092970870.jpg",
-              "width": "100%",
-              "height": "auto",
-              "autoplay": true,
-              "playbackRate": [
-                0.5,
-                1,
-                1.5,
-                2
-              ],
-              "x5-video-player-type": "h5",
-              "x5-video-player-fullscreen": "true",
-              "x5-video-orientation": "portraint"
-            });
+            //播放mv
+            if(player!=undefined){
+              player.src=url
+            }else{
+              player= new Player({
+                "id": "video",
+                "url": url,
+                "playsinline": true,
+                "whitelist": [
+                  ""
+                ],
+                // "poster": "http://p1.music.126.net/T14lMrty1Rz92-yDMYKO4Q==/7762552092970870.jpg",
+                "width": "100%",
+                "height": "auto",
+                "autoplay": true,
+                "playbackRate": [
+                  0.5,
+                  1,
+                  1.5,
+                  2
+                ],
+                "x5-video-player-type": "h5",
+                "x5-video-player-fullscreen": "true",
+                "x5-video-orientation": "portraint"
+              });
+            }
+
           }
+        })
+      }else if ($(this).attr("type")=='qq'){
+        $.ajax({
+          url:prefixUrl+"/qq/getMvUrl",
+          data:{"vid":$(this).attr("mvid"),"dataFormat":true},
+          dataType:"json",
+          success:function(res){
+            $("#myModalLabel").text("MV加载成功");
+            $.each(res.data,function(index,value){
+              url=value;
+            })
 
-        }
-      })
+            //播放mv
+            if(player!=undefined){
+              player.src=url
+            }else{
+              player= new Player({
+                "id": "video",
+                "url": url,
+                "playsinline": true,
+                "whitelist": [
+                  ""
+                ],
+                // "poster": "http://p1.music.126.net/T14lMrty1Rz92-yDMYKO4Q==/7762552092970870.jpg",
+                "width": "100%",
+                "height": "auto",
+                "autoplay": true,
+                "playbackRate": [
+                  0.5,
+                  1,
+                  1.5,
+                  2
+                ],
+                "x5-video-player-type": "h5",
+                "x5-video-player-fullscreen": "true",
+                "x5-video-orientation": "portraint"
+              });
+            }
+
+          }
+        })
+      }
+
 
 
 
@@ -214,64 +259,111 @@
 
 
   //搜索歌曲
-
-  $("#search").click(function(){
-    let keyword=$("#keyword").val();
-    let musicType=$("input[name='musicType']:checked").val();
-
-    if(keyword==""){
-      alert("请输入搜索的关键词");
-    }else{
-      $("#search").button('loading');
-      //发起搜索请求，根据不同接口发起请求
-      if(musicType=='cloud'){
-        $.ajax(
-          {
-            url: "/api/search",
-            data: {"keywords":keyword},
-            dataType:"json",
-            success: function (result) {
-              //渲染数据
-              if(result.code==200){
-                var html="";
-                  $.each(result.result.songs,function(index,value){
-                    var singer=value.ar[0].name;
-                    var name=value.name;
-                    var mvid=value.mv;
-                    var alName=value.al.name;
-                    var mvHtml="";
-                    if(mvid){
-                       mvHtml="&nbsp;&nbsp; <span class=\"glyphicon glyphicon-facetime-video\" mvid='"+mvid+"'></span>\n";
-                    }
-                    html+="      <tr>\n" +
-                            "            <td>"+name+"</td>\n" +
-                            "            <td>"+alName+"</td>\n" +
-                            "            <td>"+singer+"</td>\n" +
-                            "            <td>\n" +mvHtml
-                            "            </td>\n" +
-                            "          </tr>"
-
-                  })
-                $("#table").html("");
-                $("#table").html(html);
-                $("#search").button('reset');
-              }
-              // $("#search").button('reset');
-            }
-          }
-        )
-
+    $("#keyword").keydown(function(e){
+      if(e.keyCode==13){
+        search();
       }
+    })
 
+  $("#search,input[name='musicType']").click(function(){
 
-    }
-
+    search();
 
 
 
   })
 
+function search(){
+  let keyword=$("#keyword").val();
+  let musicType=$("input[name='musicType']:checked").val();
 
+  if(keyword==""){
+    alert("请输入搜索的关键词");
+  }else{
+    $("#search").button('loading');
+    //发起搜索请求，根据不同接口发起请求
+    if(musicType=='cloud'){
+      $.ajax(
+              {
+                url: prefixUrl+"/search",
+                data: {"keywords":keyword},
+                dataType:"json",
+                success: function (result) {
+                  //渲染数据
+                  if(result.code==200){
+                    var html="";
+                    $.each(result.result.songs,function(index,value){
+                      var singer=value.ar[0].name;
+                      var name=value.name;
+                      var mvid=value.mv;
+                      var alName=value.al.name;
+                      var mvHtml="";
+                      if(mvid){
+                        mvHtml="&nbsp;&nbsp; <span class=\"glyphicon glyphicon-facetime-video\" mvid='"+mvid+"' type='"+musicType+"'></span>\n";
+                      }
+                      html+="      <tr>\n" +
+                              "            <td>"+name+"</td>\n" +
+                              "            <td>"+alName+"</td>\n" +
+                              "            <td>"+singer+"</td>\n" +
+                              "            <td>\n" +mvHtml
+                      "            </td>\n" +
+                      "          </tr>"
+
+                    })
+                    $("#table").html("");
+                    $("#table").html(html);
+                    $("#search").button('reset');
+                  }
+                  // $("#search").button('reset');
+                }
+              }
+      )
+
+    }else if(musicType=='qq'){
+      //搜索qq接口
+      $.ajax(
+              {
+                url: prefixUrl+"/qq/search/soso",
+                data: {"keyword":keyword},
+                dataType:"json",
+                success: function (result) {
+                  //渲染数据
+                  if(result.code==0){
+                    var html="";
+                    $.each(result.data.song.list,function(index,value){
+                      var singer=value.singer[0].name;
+                      var name=value.songname;
+                      var mvid=value.vid;
+                      var alName=value.albumname;
+                      var mvHtml="";
+                      if(mvid){
+                        mvHtml="&nbsp;&nbsp; <span class=\"glyphicon glyphicon-facetime-video\" mvid='"+mvid+"' type='"+musicType+"'></span>\n";
+                      }
+                      html+="      <tr>\n" +
+                              "            <td>"+name+"</td>\n" +
+                              "            <td>"+alName+"</td>\n" +
+                              "            <td>"+singer+"</td>\n" +
+                              "            <td>\n" +mvHtml
+                      "            </td>\n" +
+                      "          </tr>"
+
+                    })
+                    $("#table").html("");
+                    $("#table").html(html);
+                    $("#search").button('reset');
+                  }
+                  // $("#search").button('reset');
+                }
+              }
+      )
+
+
+    }
+
+
+  }
+
+}
 
 </script>
 
