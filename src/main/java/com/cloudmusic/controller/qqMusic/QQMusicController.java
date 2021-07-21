@@ -108,9 +108,6 @@ public class QQMusicController {
     }
 
 
-    @Value("${application.testDynamic}")
-    private String testDynamic;
-
     /**
      * 获取qq音乐歌词
      *
@@ -120,7 +117,6 @@ public class QQMusicController {
      */
     @RequestMapping("/getLyric")
     public String getLyric(String musicId) throws IOException {
-        System.out.println(testDynamic);
         if (musicId == null) {
             return new JSONObject(new Result(0, "缺少必填参数")).toString();
         }
