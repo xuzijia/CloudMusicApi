@@ -41,7 +41,7 @@
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
-			<version>RELEASE</version>
+			<version>1.14.2</version>
         </dependency>
 
 		<!-- redis的starter -->
